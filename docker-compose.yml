@@ -1,0 +1,69 @@
+version: '3.7'
+services:
+  # MySql Service
+  database:
+    image: mysql:8.0.20
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '3308:3306'
+    environment:
+      MYSQL_DATABASE: local-elearning
+      MYSQL_USER: root
+      MYSQL_PASSWORD: elearning
+      MYSQL_ROOT_PASSWORD: elearning
+      SERVICE_TAGS: local
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+  # PHP Service
+  backend:
+    build: .
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/
+    ports:
+      - '9002:9000'
+    volumes:
+      - '.:/var/www'
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/upload.ini
+    networks:
+      - app-network
+  
+  cron:
+    build: .
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/
+    volumes:
+      - '.:/var/www'
+    networks:
+      - app-network
+    command: ./docker/cron/cron.sh
+
+  # Webserver Service
+  webserver:
+    image: nginx:alpine
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '82:80'
+      - '444:444'
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local

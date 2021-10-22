@@ -1,0 +1,23 @@
+* * * * * cd /var/www && /usr/local/bin/php artisan schedule:run >> /var/log/cron.log 2>&1
+
+# Running every 3 seconds
+* * * * * cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 3  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 6  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 9  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 12  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 15  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 18  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 21  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 24  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 27  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 30  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 33  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 36  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 39  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 42  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 45  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 48  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 51  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 54  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
+* * * * * sleep 57  && cd /var/www &&  /usr/local/bin/php artisan update:lectures-order >> /var/log/cron.log 2>&1
