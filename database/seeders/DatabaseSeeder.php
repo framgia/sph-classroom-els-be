@@ -3,6 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\QuestionTypeSeeder;
+use Database\Seeders\CategorySeeder;
+use Database\Seeders\QuizSeeder;
+use Database\Seeders\QuestionSeeder;
+use Database\Seeders\ChoiceSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,5 +19,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+
+        $this->call([
+            QuestionTypeSeeder::class, 
+            CategorySeeder::class,
+            QuizSeeder::class,
+            QuestionSeeder::class,
+            ChoiceSeeder::class
+        ]);
     }
 }
