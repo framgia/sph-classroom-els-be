@@ -41,11 +41,11 @@ class Quiz extends Model
 
     public function questions()
     {
-        $this->hasMany(Question::class);
+        return $this->hasMany(Question::class);
     }
 
     public function category()
     {
-        $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
 }

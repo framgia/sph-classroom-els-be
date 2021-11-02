@@ -32,12 +32,12 @@ class Following extends Model
 
     public function follower_user()
     {
-        $this->belongsTo(User::class, 'follower_id');
+        return $this->belongsTo(User::class, 'follower_id');
     }
 
     public function followed_user()
     {
-        $this->belongsTo(User::class, 'followed_id');
+        return $this->belongsTo(User::class, 'followed_id');
     }
 
     public function activities()

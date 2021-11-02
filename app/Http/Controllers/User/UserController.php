@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json($user, 200);
+        return response()->json(["user" => $user], 200);
     }
 
     /**
@@ -44,6 +44,6 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json($user, 200);
+        return response()->json(["user" => $user], 200);
     }
 }
