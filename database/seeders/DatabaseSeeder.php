@@ -8,6 +8,7 @@ use Database\Seeders\CategorySeeder;
 use Database\Seeders\QuizSeeder;
 use Database\Seeders\QuestionSeeder;
 use Database\Seeders\ChoiceSeeder;
+use Database\Seeders\UserTypeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,7 +26,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             QuizSeeder::class,
             QuestionSeeder::class,
-            ChoiceSeeder::class
+            ChoiceSeeder::class,
+            UserTypeSeeder::class
         ]);
     }
 }
