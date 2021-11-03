@@ -35,16 +35,16 @@ class Question extends Model
 
     public function choices()
     {
-        $this->hasMany(Choice::class);
+        return $this->hasMany(Choice::class);
     }
 
     public function question_type()
     {
-        $this->belongsTo(QuestionType::class);
+        return $this->belongsTo(QuestionType::class);
     }
 
     public function quiz()
     {
-        $this->belongsTo(Quiz::class);
+        return $this->belongsTo(Quiz::class);
     }
 }

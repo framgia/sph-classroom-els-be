@@ -34,11 +34,11 @@ class Category extends Model
 
     public function quizzes()
     {
-        $this->hasMany(Quiz::class);
+        return $this->hasMany(Quiz::class);
     }
 
     public function subcategories()
     {
-        $this->hasMany(self::class);
+        return $this->hasMany(self::class);
     }
 }
