@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\API\v1\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -16,7 +17,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json(["user" => $user], 200);
+        return $this->showOne($user);
     }
 
     /**
@@ -26,24 +27,19 @@ class UserController extends Controller
      * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required'
-        ]);
-
        $user->fill($request->only([
             'name',
             'email'
         ]));
 
         if($user->isClean()) {
-            return response()->json(['error' => 'You need to specify a different value to update', 'code' => 422], 422);
+            return $this->errorResponse('You need to specify a different value to update', 422);
         }
 
         $user->save();
 
-        return response()->json(["user" => $user], 200);
+        return $this->showOne($user);
     }
 }
