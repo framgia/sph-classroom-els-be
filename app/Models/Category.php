@@ -15,6 +15,8 @@ class Category extends Model
     |--------------------------------------------------------------------------
     */
 
+    protected $with = ['subcategories'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -24,6 +26,7 @@ class Category extends Model
         'name',
         'description',
         'image',
+        'category_id'
     ];
 
     /*
