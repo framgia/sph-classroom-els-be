@@ -26,4 +26,9 @@ trait ResponseMessage
     {
         return $this->successResponse(['data' => $model], $code);
     }
+
+    protected function authResponse($array=[], $code = 200)
+    {
+        return $this->successResponse($array, $code);
+    }
 }

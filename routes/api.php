@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\v1\User\UserController;
 use App\Http\Controllers\API\v1\Category\CategoryController;
 use App\Http\Controllers\API\v1\Quiz\QuizController;
+use App\Http\Controllers\API\v1\Auth\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,8 @@ Route::prefix('v1')->group(function () {
     Route::resource('/users', UserController::class);
     Route::resource('/categories', CategoryController::class);
     Route::resource('/categories.quizzes', QuizController::class);
-});
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
 
+});
 
