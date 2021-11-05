@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\v1\User\UserController;
+use App\Http\Controllers\API\v1\Category\CategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,4 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::resource('/users', UserController::class);
+    Route::resource('/categories', CategoryController::class);
 });
