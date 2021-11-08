@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API\v1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
+use App\Http\Requests\Auth\ResetRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -13,12 +15,8 @@ use Illuminate\Validation\ValidationException;
 
 class ForgotPasswordController extends Controller
 {
-    public function forgotPassword(Request $request)
+    public function forgotPassword(ForgotPasswordRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-        ]);
-
         $status = Password::sendResetLink(
             $request->only('email')
         );
@@ -32,14 +30,8 @@ class ForgotPasswordController extends Controller
         ]);
     }
 
-    public function reset(Request $request)
+    public function reset(ResetRequest $request)
     {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required', 'confirmed', 
-        ]);
-
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
@@ -57,7 +49,7 @@ class ForgotPasswordController extends Controller
         if ($status === Password::PASSWORD_RESET) {
             return $this->authResponse('Password was reset successfully', 201);
         }
-        return $this->errorResponse("error", 500);
+        return $this->errorResponse("error", 422);
     }
 
 
