@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\ResetPasswordNotification;
+use Illuminate\Contracts\Auth\CanResetPassword;
 
 class User extends Authenticatable
 {
@@ -76,5 +78,11 @@ class User extends Authenticatable
     public function followed_users()
     {
         return $this->hasMany(Following::class, 'followed_id');
+    }
+    
+    public function sendPasswordResetNotification($token)
+    {
+        $url = 'https://E-CLASSRROOOM/reset-password?token=' . $token;
+        $this->notify(new ResetPasswordNotification($url));
     }
 }

@@ -7,6 +7,9 @@ use App\Http\Controllers\API\v1\Category\CategoryController;
 use App\Http\Controllers\API\v1\Quiz\QuizController;
 use App\Http\Controllers\API\v1\Auth\AuthController;
 use App\Http\Controllers\API\v1\Quiz\QuestionController;
+use App\Http\Controllers\API\v1\Auth\ForgotPasswordController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,4 +32,6 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::resource('/quizzes.questions', QuestionController::class);
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'forgotPassword']);
+    Route::post('/reset-password', [ForgotPasswordController::class, 'reset']);
 });
