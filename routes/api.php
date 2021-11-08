@@ -6,8 +6,7 @@ use App\Http\Controllers\API\v1\User\UserController;
 use App\Http\Controllers\API\v1\Category\CategoryController;
 use App\Http\Controllers\API\v1\Quiz\QuizController;
 use App\Http\Controllers\API\v1\Auth\AuthController;
-
-
+use App\Http\Controllers\API\v1\Quiz\QuestionController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,6 +28,5 @@ Route::prefix('v1')->group(function () {
     Route::resource('/categories.quizzes', QuizController::class);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
-
+    Route::resource('/quizzes.questions', QuestionController::class);
 });
-

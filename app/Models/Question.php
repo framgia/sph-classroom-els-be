@@ -15,6 +15,8 @@ class Question extends Model
     |--------------------------------------------------------------------------
     */
 
+    protected $with = ['question_type'];
+
     /**
      * The attributes that are mass assignable.
      *
