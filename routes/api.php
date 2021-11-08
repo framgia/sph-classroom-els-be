@@ -21,17 +21,20 @@ use App\Http\Controllers\API\v1\Auth\ForgotPasswordController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::prefix('v1')->group(function () {
-    Route::resource('/users', UserController::class);
-    Route::resource('/categories', CategoryController::class);
-    Route::resource('/categories.quizzes', QuizController::class);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
-    Route::resource('/quizzes.questions', QuestionController::class);
     Route::post('/forgot-password', [ForgotPasswordController::class, 'forgotPassword']);
     Route::post('/reset-password', [ForgotPasswordController::class, 'reset']);
+
+    // Authenticated routes
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('/user', [AuthController::class, 'user']);
+
+        Route::resource('/users', UserController::class);
+        Route::resource('/categories', CategoryController::class);
+        Route::resource('/categories.quizzes', QuizController::class);
+        Route::resource('/quizzes.questions', QuestionController::class);
+    });
 });
