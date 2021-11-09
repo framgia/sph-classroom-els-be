@@ -15,7 +15,7 @@ class ModifyUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('user_type_id');
-            $table->string('avatar');
+            $table->string('avatar')->nullable();
         });
     }
 
