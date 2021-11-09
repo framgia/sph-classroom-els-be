@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 trait ResponseMessage
 {
-    private function successResponse($data, $code)
+    protected function successResponse($data, $code)
     {
         return response()->json($data, $code);
     }
@@ -27,7 +27,7 @@ trait ResponseMessage
         return $this->successResponse(['data' => $model], $code);
     }
 
-    protected function authResponse($array=[], $code = 200)
+    protected function authResponse($array = [], $code = 200)
     {
         return $this->successResponse($array, $code);
     }
