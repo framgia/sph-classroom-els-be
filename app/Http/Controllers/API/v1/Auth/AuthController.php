@@ -39,11 +39,8 @@ class AuthController extends Controller
             'avatar' => $request->avatar
         ]);
 
-        $token = $user->createToken('access_token')->plainTextToken;
-
         $response = [
             'user' => $user,
-            'token' => $token
         ];
 
         return $this->authResponse($response, 201);
