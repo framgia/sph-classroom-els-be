@@ -49,7 +49,7 @@ class ForgotPasswordController extends Controller
         if ($status === Password::PASSWORD_RESET) {
             return $this->authResponse('Password was reset successfully', 201);
         }
-        return $this->errorResponse("error", 422);
+        return $this->errorResponse('Wrong Email', 401);
     }
 
 
