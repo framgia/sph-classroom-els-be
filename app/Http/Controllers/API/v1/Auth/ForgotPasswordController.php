@@ -31,7 +31,6 @@ class ForgotPasswordController extends Controller
         throw ValidationException::withMessages([
             'email' => [trans($status)],
         ]);
-        
     }
 
     public function reset(ResetRequest $request)
@@ -55,6 +54,4 @@ class ForgotPasswordController extends Controller
         }
         return $this->errorResponse(['message' => 'Incorrect Email'], 401);
     }
-
-
 }
