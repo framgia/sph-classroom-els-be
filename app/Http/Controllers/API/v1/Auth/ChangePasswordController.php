@@ -23,5 +23,5 @@ class ChangePasswordController extends Controller
         } else {
             return $this->errorResponse('Incorrect Password.', 422);
         }
-    }
+    }   
 }
