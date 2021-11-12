@@ -7,9 +7,13 @@ use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Traits\Pagination;
 
 class CategoryController extends Controller
 {
+
+    use Pagination;
+
     /**
      * Display a listing of Categories.
      *
@@ -19,7 +23,7 @@ class CategoryController extends Controller
     {
         $categories = Category::all();
 
-        return $this->showAll($categories);
+        return $this->paginate($categories);
     }
 
     /**
