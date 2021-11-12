@@ -82,7 +82,7 @@ class User extends Authenticatable
     
     public function sendPasswordResetNotification($token)
     {
-        $url = 'https://E-CLASSRROOOM/reset-password?token=' . $token;
+        $url = 'http://localhost:3003/new-password?token=' . $token;
         $this->notify(new ResetPasswordNotification($url));
     }
 }

@@ -24,6 +24,9 @@ class ForgotPasswordController extends Controller
         if ($status == Password::RESET_LINK_SENT) {
             return $this->authResponse('The link was sent, please Check your email');
         }
+        else {
+            return $this->errorResponse("Incorrect Email", 401);
+        }
 
         throw ValidationException::withMessages([
             'email' => [trans($status)],
@@ -49,8 +52,6 @@ class ForgotPasswordController extends Controller
         if ($status === Password::PASSWORD_RESET) {
             return $this->authResponse('Password was reset successfully', 201);
         }
-        return $this->errorResponse("error", 422);
+        return $this->errorResponse(['message' => 'Incorrect Email'], 422);
     }
-
-
 }
