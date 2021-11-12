@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Quiz;
+use App\Traits\Pagination;
 
 class QuizController extends Controller
 {
+    use Pagination;
+    
     /**
      * Display a listing of all quizzes based on a.
      *
@@ -18,8 +21,8 @@ class QuizController extends Controller
     public function index(Category $category)
     {
         $quizzes = $category->quizzes;
-
-        return $this->showAll($quizzes);
+        
+        return $this->paginate($quizzes);
     }
 
     /**
