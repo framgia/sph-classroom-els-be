@@ -19,7 +19,7 @@ class QuizController extends Controller
     {
         $quizzes = $category->quizzes;
 
-        return $this->showAll($quizzes);
+        return $this->paginatedList($quizzes);
     }
 
     /**
