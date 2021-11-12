@@ -12,7 +12,7 @@ trait Pagination
     {
         $page = LengthAwarePaginator::resolveCurrentPage();
 
-        $perPage = 2;
+        $perPage = 12;
         if(request()->has('per_page')){
             $perPage = (int)request()->per_page;
         }
