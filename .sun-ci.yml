@@ -1,0 +1,57 @@
+workspace: true
+
+stages:
+  - build
+  - test
+
+jobs:
+- name: Build
+  stage: build
+  image: laravelfans/laravel:8
+  workspace: shared
+  services:
+  - image: mysql:8.0.20
+    name: mysql
+    environment:
+      MYSQL_DATABASE: test-elearning
+      MYSQL_USER: elearning
+      MYSQL_PASSWORD: elearning
+      MYSQL_ROOT_PASSWORD: elearning
+      SERVICE_NAME: mysql
+  environment:
+    APP_ENV: testing
+  cache:
+  - key: composer_vendor_$CI_BRANCH
+    paths:
+      - vendor
+  before_script:
+  - cp .env.test.example .env
+  - composer install
+  script:
+  - php artisan key:generate
+  - php artisan config:clear
+  - php artisan migrate
+  after_script:
+  - echo "Finish job, Done"
+  only:
+    branches:
+    - develop
+    events:
+    - pull_request
+  except:
+    branches:
+    - master
+
+- name: Phpunit
+  stage: test
+  image: laravelfans/laravel:8
+  workspace: shared
+  before_script:
+  - php artisan optimize:clear
+  script:
+  - php artisan test
+  only:
+    branches:
+    - develop
+    events:
+    - pull_request
