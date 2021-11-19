@@ -9,6 +9,7 @@ use Database\Seeders\QuizSeeder;
 use Database\Seeders\QuestionSeeder;
 use Database\Seeders\ChoiceSeeder;
 use Database\Seeders\UserTypeSeeder;
+use Database\Seeders\SubcatergorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
             UserTypeSeeder::class,
             StudentSeeder::class,
             AdminSeeder::class,
+            SubcategorySeeder::class,
         ]);
     }
 }
