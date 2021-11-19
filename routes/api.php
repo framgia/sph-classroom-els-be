@@ -9,7 +9,8 @@ use App\Http\Controllers\API\v1\Auth\AuthController;
 use App\Http\Controllers\API\v1\Quiz\QuestionController;
 use App\Http\Controllers\API\v1\Auth\ForgotPasswordController;
 use App\Http\Controllers\API\v1\Auth\ChangePasswordController;
-
+use App\Http\Controllers\API\v1\Quiz\QuizAnswerController;
+use App\Http\Controllers\API\v1\Quiz\QuizzesTakenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,8 @@ Route::prefix('v1')->group(function () {
         Route::resource('/categories', CategoryController::class);
         Route::resource('/categories.quizzes', QuizController::class);
         Route::resource('/quizzes.questions', QuestionController::class);
+        Route::resource('/quizzes-taken', QuizzesTakenController::class);
+        Route::resource('/quizzes-taken.answers', QuizAnswerController::class);
         Route::post('/change-password', [ChangePasswordController::class, 'changePassword']);
     });
 });
