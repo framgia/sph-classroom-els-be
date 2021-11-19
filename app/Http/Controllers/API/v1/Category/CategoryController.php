@@ -21,9 +21,15 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        
+        $categories = Category::withCount('subcategories');
+        if (request()->has('category_id')){
+            $categories = $categories->where('category_id', request('category_id'));
+        }else{
+            $categories = $categories->whereNull('category_id');
+        }
 
-        return $this->paginate($categories);
+        return $this->paginate($categories->get());
     }
 
     /**
@@ -45,8 +51,9 @@ class CategoryController extends Controller
      * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
+        $category = Category::withCount(['subcategories', 'quizzes'])->findOrFail($id);
         return $this->showOne($category);
     }
 
