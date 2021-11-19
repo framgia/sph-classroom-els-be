@@ -85,4 +85,9 @@ class User extends Authenticatable
         $url = 'http://localhost:3003/new-password?token=' . $token;
         $this->notify(new ResetPasswordNotification($url));
     }
+
+    public function quizzes()
+    {
+        return $this->belongsToMany(Quiz::class, 'quizzes_taken')->withPivot('id', 'score');
+    }
 }
