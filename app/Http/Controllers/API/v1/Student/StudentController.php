@@ -17,8 +17,10 @@ class StudentController extends Controller
     {
         $id = Auth::user()->id;
 
-        $students = User::where('user_type_id', 2)
+        $students = User::withCount(['followings', 'followers'])
+            ->where('user_type_id', 2)
             ->where('id', '!=', $id)
+        
             ->get();
 
         return $this->paginate($students);
