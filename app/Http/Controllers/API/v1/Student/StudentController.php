@@ -4,8 +4,9 @@ namespace App\Http\Controllers\API\v1\Student;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 use App\Traits\Pagination;
+use App\Models\User;
 
 class StudentController extends Controller
 {
@@ -16,10 +17,9 @@ class StudentController extends Controller
     {
         $id = Auth::user()->id;
 
-        $students = DB::table('users')
-            ->where('user_type_id', 2)
+        $students = User::where('user_type_id', 2)
             ->where('id', '!=', $id)
-            ->get(['id', 'name']);
+            ->get();
 
         return $this->paginate($students);
     }
