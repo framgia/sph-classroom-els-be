@@ -20,7 +20,6 @@ class StudentController extends Controller
         $students = User::withCount(['followings', 'followers'])
             ->where('user_type_id', 2)
             ->where('id', '!=', $id)
-        
             ->get();
 
         return $this->paginate($students);
