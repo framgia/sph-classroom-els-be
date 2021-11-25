@@ -9,6 +9,7 @@ use App\Http\Controllers\API\v1\Auth\AuthController;
 use App\Http\Controllers\API\v1\Quiz\QuestionController;
 use App\Http\Controllers\API\v1\Auth\ForgotPasswordController;
 use App\Http\Controllers\API\v1\Auth\ChangePasswordController;
+use App\Http\Controllers\API\v1\Follow\FollowController;
 use App\Http\Controllers\API\v1\Quiz\QuizAnswerController;
 use App\Http\Controllers\API\v1\Quiz\QuizzesTakenController;
 use App\Http\Controllers\API\v1\Student\StudentController;
@@ -44,5 +45,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/change-password', [ChangePasswordController::class, 'changePassword']);
 
         Route::get('/students', [StudentController::class, 'index']);
+        Route::post('/follow', [FollowController::class, 'follow']);
+        Route::post('/unfollow', [FollowController::class, 'unfollow']);
     });
 });
