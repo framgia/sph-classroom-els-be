@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\Pagination;
 use App\Traits\StudentFilter;
+use Illuminate\Http\Request;
 use App\Models\User;
 class StudentController extends Controller
 {
@@ -29,5 +30,21 @@ class StudentController extends Controller
             ->get();
 
             return $this->paginate(Auth::user()->attachFollowStatus($students));
+    }
+
+     /**
+     * Display the specified student.
+     *
+     * @param  Students $students
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request)
+    {
+        $student = User::withCount(['followings', 'followers'])
+        ->where('user_type_id', 2)
+        ->where('id', $request->id)
+        ->get();
+
+        return $this->successResponse(['data' => $student], 200);
     }
 }
