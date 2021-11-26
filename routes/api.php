@@ -45,6 +45,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/change-password', [ChangePasswordController::class, 'changePassword']);
 
         Route::get('/students', [StudentController::class, 'index']);
+        Route::get('/students/{id}', [StudentController::class, 'show']);
         Route::post('/follow', [FollowController::class, 'follow']);
         Route::post('/unfollow', [FollowController::class, 'unfollow']);
     });
