@@ -28,6 +28,6 @@ class StudentController extends Controller
             ->where('id', '!=', $id)
             ->get();
 
-        return $this->paginate($students);
+            return $this->paginate(Auth::user()->attachFollowStatus($students));
     }
 }
