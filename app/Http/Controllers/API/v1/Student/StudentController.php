@@ -42,8 +42,7 @@ class StudentController extends Controller
     {
         $student = User::withCount(['followings', 'followers'])
         ->where('user_type_id', 2)
-        ->where('id', $request->id)
-        ->get();
+        ->findOrFail($request->id);
 
         return $this->successResponse(['data' => $student], 200);
     }
