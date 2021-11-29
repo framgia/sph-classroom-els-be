@@ -22,6 +22,10 @@ class StudentController extends Controller
             $filtered_student_list = $this->filter($query, $id);
 
             return $this->paginate($filtered_student_list);
+        } else {
+            $searched_student_list = User::where('name', 'LIKE', '%' . $query['search'] . '%')->get();
+
+            return $this->paginate($searched_student_list);
         }
 
         $students = User::withCount(['followings', 'followers'])
