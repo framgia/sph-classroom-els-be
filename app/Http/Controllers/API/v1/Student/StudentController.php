@@ -21,7 +21,7 @@ class StudentController extends Controller
         if(isset($query['filter'])){
             $filtered_student_list = $this->filter($query, $id);
 
-            return $this->paginate($filtered_student_list);
+            return $this->paginate(Auth::user()->attachFollowStatus($filtered_student_list));
         } else if (isset($query['search'])) {
             $searched_student_list = User::where('name', 'LIKE', '%' . $query['search'] . '%')
                                         ->where('id', '!=', $id)
