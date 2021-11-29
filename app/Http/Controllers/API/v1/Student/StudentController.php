@@ -22,7 +22,7 @@ class StudentController extends Controller
             $filtered_student_list = $this->filter($query, $id);
 
             return $this->paginate($filtered_student_list);
-        } else {
+        } else if (isset($query['search'])) {
             $searched_student_list = User::where('name', 'LIKE', '%' . $query['search'] . '%')->get();
 
             return $this->paginate($searched_student_list);
@@ -33,7 +33,7 @@ class StudentController extends Controller
             ->where('id', '!=', $id)
             ->get();
 
-            return $this->paginate(Auth::user()->attachFollowStatus($students));
+        return $this->paginate(Auth::user()->attachFollowStatus($students));
     }
 
      /**
