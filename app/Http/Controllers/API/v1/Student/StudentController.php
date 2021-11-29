@@ -23,7 +23,9 @@ class StudentController extends Controller
 
             return $this->paginate($filtered_student_list);
         } else if (isset($query['search'])) {
-            $searched_student_list = User::where('name', 'LIKE', '%' . $query['search'] . '%')->get();
+            $searched_student_list = User::where('name', 'LIKE', '%' . $query['search'] . '%')
+                                        ->where('id', '!=', $id)
+                                        ->get();
 
             return $this->paginate(Auth::user()->attachFollowStatus($searched_student_list));
         }
