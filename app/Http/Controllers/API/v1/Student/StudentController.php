@@ -21,19 +21,10 @@ class StudentController extends Controller
         if(isset($query['filter'])){
             $filtered_student_list = $this->filter($query, $id);
 
-            return $this->paginate(Auth::user()->attachFollowStatus($filtered_student_list));
-        } else if (isset($query['search'])) {
-            $searched_student_list = User::where('name', 'LIKE', '%' . $query['search'] . '%')
-                                        ->where('id', '!=', $id)
-                                        ->get();
-
-            return $this->paginate(Auth::user()->attachFollowStatus($searched_student_list));
+            return $this->paginate(Auth::user()->attachFollowStatus($filtered_student_list->get()));
         }
-
-        $students = User::withCount(['followings', 'followers'])
-            ->where('user_type_id', 2)
-            ->where('id', '!=', $id)
-            ->get();
+     
+        $students = User::searchAndExcludeLoggedInUserAndAdmins($id, $query['search'])->get();
 
         return $this->paginate(Auth::user()->attachFollowStatus($students));
     }
