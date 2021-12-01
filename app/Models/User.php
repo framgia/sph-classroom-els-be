@@ -90,4 +90,19 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Quiz::class, 'quizzes_taken')->withPivot('id', 'score');
     }
+
+    public function scopeSearchAndExcludeLoggedInUserAndAdmins($query, $id, $search)
+    {
+        return $query->withCount(['followings', 'followers'])
+                     ->where('name', 'LIKE', '%' . $search . '%')
+                     ->where('id', '!=', $id)
+                     ->where('user_type_id', 2);
+    }
+
+    public function scopeSearchAndExcludeAdmins($query, $search)
+    {
+        return $query->withCount(['followings', 'followers'])
+                     ->where('name', 'LIKE', '%' . $search . '%')
+                     ->where('user_type_id', 2);
+    }
 }
