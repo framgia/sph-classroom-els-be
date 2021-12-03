@@ -37,6 +37,8 @@ class RegisterRequest extends FormRequest
     {
       return [
         'email.ends_with' => 'Your email is not valid',
+        'password_confirmation.same' => 'Password does not match',
+        'password.min' => 'Password must be at least 6 characters'
       ];
     }
 }

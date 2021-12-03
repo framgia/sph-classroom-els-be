@@ -25,15 +25,10 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'required|string|max:50',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string'
         ];
     }
 
-    public function messages() 
-    {
-      return [
-        'email.' => 'Your email is not valid',
-      ];
-    }
+    
 
 }
