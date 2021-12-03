@@ -49,5 +49,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/follow', [FollowController::class, 'follow']);
         Route::post('/unfollow', [FollowController::class, 'unfollow']);
         Route::get('/recent-quizzes/{id}', [QuizzesTakenController::class, 'recent']);
+        Route::get('/categories-learned/{id}', [QuizzesTakenController::class, 'learned']);
     });
 });

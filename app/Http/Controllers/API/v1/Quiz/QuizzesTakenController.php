@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Quiz\UpdateQuizTakenRequest;
 use Illuminate\Http\Request;
 use App\Models\Quiz;
+use App\Models\Category;
 
 class QuizzesTakenController extends Controller
 {
@@ -84,7 +85,33 @@ class QuizzesTakenController extends Controller
                         ->orderByDesc('quizzes_taken.created_at')
                         ->limit(10)
                         ->get();
-            
+
         return $this->showAll($recent);
+    }
+
+    public function learned(Request $request)
+    {
+       
+        $quizzes_taken_by_user = DB::table('quizzes_taken')
+                                ->where('user_id', $request->id)
+                                ->get()
+                                ->pluck('quiz_id')
+                                ->all();
+        
+        $categories_learned = Category::with(['quizzes' => function ($query) use ($quizzes_taken_by_user) 
+                                        {$query->whereIn('id', $quizzes_taken_by_user);
+                                    }])
+                                    ->has('quizzes')
+                                    ->withCount('quizzes')
+                                    ->limit(10)
+                                    ->get();
+
+        $categories_with_quizzestaken_only = $categories_learned->filter(function ($category_learned) {
+            if($category_learned->quizzes->count() > 0 ){
+                return $category_learned;
+            }
+        });
+
+        return $this->showAll($categories_with_quizzestaken_only); 
     }
 }
