@@ -26,8 +26,17 @@ class ResetRequest extends FormRequest
         return [
             'token' => 'required',
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:6',
             'password_confirmation' => 'required|same:password',
         ];
+    }
+
+    public function messages() 
+    {
+      return [
+        'email.required' => 'Please put a valid email',
+        'password_confirmation.same' => 'Password does not match',
+        'password.min' => 'Password must be at least 6 characters'
+      ];
     }
 }
