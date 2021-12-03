@@ -23,11 +23,22 @@ class RegisterRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'name' => 'required|string',
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed',
+            'email' => 'required|string|unique:users,email|ends_with:sun-asterisk.com,gmail.com,yahoo.com',
+            'password' => 'required|string|min:6',
+            'password_confirmation' => 'required|same:password',
             'user_type_id' => 'required|integer'
         ];
+    }
+
+    public function messages() 
+    {
+      return [
+        'email.ends_with' => 'Your email is not valid',
+        'password_confirmation.same' => 'Password does not match',
+        'password.min' => 'Password must be at least 6 characters'
+      ];
     }
 }
