@@ -13,6 +13,7 @@ use App\Http\Controllers\API\v1\Follow\FollowController;
 use App\Http\Controllers\API\v1\Quiz\QuizAnswerController;
 use App\Http\Controllers\API\v1\Quiz\QuizzesTakenController;
 use App\Http\Controllers\API\v1\Student\StudentController;
+use App\Http\Controllers\API\v1\User\UserRecentQuizzesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,5 +51,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/unfollow', [FollowController::class, 'unfollow']);
         Route::get('/recent-quizzes/{id}', [QuizzesTakenController::class, 'recent']);
         Route::get('/categories-learned/{id}', [QuizzesTakenController::class, 'learned']);
+        Route::get('/recentQuizzes', [UserRecentQuizzesController::class, 'UserRecentquizzes']);
     });
 });
