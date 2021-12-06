@@ -69,16 +69,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Activity::class);
     }
-
-    public function followers()
-    {
-        return $this->hasMany(Following::class, 'follower_id');
-    }
-
-    public function followed_users()
-    {
-        return $this->hasMany(Following::class, 'followed_id');
-    }
     
     public function sendPasswordResetNotification($token)
     {
