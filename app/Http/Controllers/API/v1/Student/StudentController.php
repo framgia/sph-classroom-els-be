@@ -8,6 +8,8 @@ use App\Traits\Pagination;
 use App\Traits\StudentFilter;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
 class StudentController extends Controller
 {
     use Pagination, StudentFilter;
@@ -41,6 +43,13 @@ class StudentController extends Controller
         ->where('user_type_id', 2)
         ->findOrFail($request->id);
 
-        return $this->successResponse(['data' => $student], 200);
+        $number_of_quizzes_taken = DB::table('quizzes_taken')->where('user_id', $request->id)->count();
+
+        $response = [
+            'details' => Auth::user()->attachFollowStatus($student),
+            'quizzesTaken' => $number_of_quizzes_taken
+        ];
+
+        return $this->successResponse($response, 200);
     }
 }
