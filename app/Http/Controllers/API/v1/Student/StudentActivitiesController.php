@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Activitylog\Models\Activity;
-use Illuminate\Support\Facades\Auth;
 
 
 class StudentActivitiesController extends Controller
@@ -14,13 +13,10 @@ class StudentActivitiesController extends Controller
     public function studentActivities(Request $request)
     {
 
-
-        $student = User::withCount(['followings', 'followers'])
-        ->where('user_type_id', 2)
-        ->findOrFail($request->id);
-
-       $activities = Activity::all()
-       ->where('causer_id', $student->id);
+       $activities = Activity::where('causer_id', $request->id)
+        ->orderByDesc('created_at')
+        ->limit(10)
+        ->get();
 
        return $this->successResponse(['data' => $activities], 200);
 
