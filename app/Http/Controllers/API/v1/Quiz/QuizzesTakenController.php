@@ -10,6 +10,8 @@ use App\Http\Requests\Quiz\UpdateQuizTakenRequest;
 use Illuminate\Http\Request;
 use App\Models\Quiz;
 use App\Models\Category;
+use App\Models\QuizTaken;
+use App\Models\User;
 
 class QuizzesTakenController extends Controller
 {
@@ -33,6 +35,14 @@ class QuizzesTakenController extends Controller
      */
     public function store(StoreQuizTakenRequest $request)
     {
+
+        $id = Auth::user()->id;
+        $name = Auth::user()->name;
+        $email = Auth::user()->email;
+        $user_type_id = Auth::user()->user_type_id;
+
+        $logged_in_user = User::find($id);
+
         $quizzes_taken_id = DB::table('quizzes_taken')->insertGetId([
             'user_id' => $request->user_id,
             'quiz_id' => $request->quiz_id,
@@ -40,6 +50,16 @@ class QuizzesTakenController extends Controller
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
+
+        $quiztaken = QuizTaken::find($quizzes_taken_id);
+        
+        $quiz = Quiz::find($quiztaken->quiz_id);
+
+        $activityquiz = activity()
+        ->causedBy($logged_in_user)
+        ->performedOn($quiz)
+        ->withProperties(['name' => $name, 'email' => $email, 'user_type_id' => $user_type_id])
+        ->log(' :properties.name Answered :subject.title Quiz');
 
         return $this->successResponse(['quizzes_taken_id' => $quizzes_taken_id], 200);
     }

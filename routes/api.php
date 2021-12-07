@@ -14,6 +14,7 @@ use App\Http\Controllers\API\v1\Quiz\QuizAnswerController;
 use App\Http\Controllers\API\v1\Quiz\QuizzesTakenController;
 use App\Http\Controllers\API\v1\Student\StudentController;
 use App\Http\Controllers\API\v1\User\UserRecentQuizzesController;
+use App\Http\Controllers\API\v1\Student\StudentActivitiesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,5 +53,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/recent-quizzes/{id}', [QuizzesTakenController::class, 'recent']);
         Route::get('/categories-learned/{id}', [QuizzesTakenController::class, 'learned']);
         Route::get('/recentQuizzes', [UserRecentQuizzesController::class, 'UserRecentquizzes']);
+        Route::get('/studentslog/{id}', [StudentActivitiesController::class, 'studentActivities']);
     });
 });
