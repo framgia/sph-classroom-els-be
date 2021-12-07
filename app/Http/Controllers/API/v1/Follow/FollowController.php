@@ -17,6 +17,8 @@ class FollowController extends Controller
     public function follow(Request $request)
     {
         $id = Auth::user()->id;
+        $name = Auth::user()->name;
+        $email = Auth::user()->email;
 
         $logged_in_user = User::find($id);
         $to_follow_user = User::find($request->user_id);
@@ -26,6 +28,11 @@ class FollowController extends Controller
         };
 
         $logged_in_user->follow($to_follow_user);
+        $logged_in_user = activity()
+        ->causedBy($logged_in_user)
+        ->performedOn($to_follow_user)
+        ->withProperties(['name' => $name, 'email' => $email])
+        ->log(' :properties.name followed :subject.name');
 
         return $this->successResponse("Successfully followed student", 200);
     }
@@ -33,6 +40,7 @@ class FollowController extends Controller
     public function unfollow(Request $request)
     {
         $id = Auth::user()->id;
+        $name = Auth::user()->name;
 
         $logged_in_user = User::find($id);
         $to_unfollow_user = User::find($request->user_id);
@@ -42,6 +50,12 @@ class FollowController extends Controller
         };
 
         $logged_in_user->unfollow($to_unfollow_user);
+        $logged_in_user = activity()
+        ->causedBy($logged_in_user)
+        ->performedOn($to_unfollow_user)
+        ->withProperties(['name' => $name])
+        ->log(' :properties.name unfollow :subject.name');
+
 
         return $this->successResponse("Successfully unfollowed student", 200);
     }
