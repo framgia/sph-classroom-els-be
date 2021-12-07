@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 
 class StudentActivitiesController extends Controller
@@ -20,5 +22,21 @@ class StudentActivitiesController extends Controller
 
        return $this->successResponse(['data' => $activities], 200);
 
+    }
+
+    public function followedActivities(Request $request)
+    {
+        $followedUsers = DB::table('user_follower')
+                ->where('follower_id', Auth::user()->id)
+                ->get()
+                ->pluck('following_id')
+                ->all();
+
+       $followedUsersActivities =  Activity::where('subject_type', '=', "App\\Models\\User")->whereIn('subject_id', $followedUsers)
+                                            ->orderByDesc('created_at')
+                                            ->limit(10)
+                                            ->get();
+
+        return $this->showAll($followedUsersActivities);
     }
 }
