@@ -27,12 +27,12 @@ class StudentActivitiesController extends Controller
     public function followedActivities(Request $request)
     {
         $followedUsers = DB::table('user_follower')
-                ->where('follower_id', Auth::user()->id)
-                ->get()
-                ->pluck('following_id')
-                ->all();
+                            ->where('follower_id', Auth::user()->id)
+                            ->get()
+                            ->pluck('following_id')
+                            ->all();
 
-       $followedUsersActivities =  Activity::where('subject_type', '=', "App\\Models\\User")->whereIn('subject_id', $followedUsers)
+       $followedUsersActivities =  Activity::whereIn('causer_id', $followedUsers)
                                             ->orderByDesc('created_at')
                                             ->limit(10)
                                             ->get();
