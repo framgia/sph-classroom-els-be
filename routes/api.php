@@ -54,5 +54,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/categories-learned/{id}', [QuizzesTakenController::class, 'learned']);
         Route::get('/recentQuizzes', [UserRecentQuizzesController::class, 'UserRecentquizzes']);
         Route::get('/studentslog/{id}', [StudentActivitiesController::class, 'studentActivities']);
+        Route::get('/followedLog', [StudentActivitiesController::class, 'followedActivities']);
     });
 });
