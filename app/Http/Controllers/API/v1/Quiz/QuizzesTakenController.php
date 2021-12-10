@@ -130,7 +130,8 @@ class QuizzesTakenController extends Controller
             if($category_learned->quizzes->count() > 0 ){
                 return $category_learned;
             }
-        });
+        })->values(); 
+
 
         return $this->showAll($categories_with_quizzestaken_only); 
     }
