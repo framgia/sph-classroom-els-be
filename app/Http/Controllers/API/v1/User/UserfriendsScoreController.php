@@ -12,7 +12,6 @@ class UserfriendsScoreController extends Controller
 {
     public function friendsScore(Request $request)
     {
-
         $followedUsers = DB::table('user_follower')
             ->where('follower_id', Auth::user()->id)
             ->get()
@@ -30,4 +29,5 @@ class UserfriendsScoreController extends Controller
 
         return $this->showAll($uniqueUser);
     }
+
 }
