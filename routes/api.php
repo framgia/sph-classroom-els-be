@@ -15,6 +15,7 @@ use App\Http\Controllers\API\v1\Quiz\QuizzesTakenController;
 use App\Http\Controllers\API\v1\Student\StudentController;
 use App\Http\Controllers\API\v1\User\UserRecentQuizzesController;
 use App\Http\Controllers\API\v1\Student\StudentActivitiesController;
+use App\Http\Controllers\API\v1\User\UserfriendsScoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,5 +56,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/recentQuizzes', [UserRecentQuizzesController::class, 'UserRecentquizzes']);
         Route::get('/studentslog/{id}', [StudentActivitiesController::class, 'studentActivities']);
         Route::get('/followedLog', [StudentActivitiesController::class, 'followedActivities']);
+
+        Route::get('/friendscore/{quiz_id}', [UserfriendsScoreController::class, 'friendsScore']);
     });
 });
