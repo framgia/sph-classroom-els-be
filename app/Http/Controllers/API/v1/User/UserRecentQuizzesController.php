@@ -23,6 +23,7 @@ class UserRecentQuizzesController extends Controller
         $recentQuizzesId = $recent->unique('quiz_id')->pluck('quiz_id')->all();
 
         $attempts = QuizTaken::whereIn('quiz_id', $recentQuizzesId)
+                               ->where('user_id', '=', $id)
                                ->orderBy('quiz_id', 'asc')
                                ->get();
 
