@@ -31,11 +31,12 @@ class CategoryController extends Controller
 
             return $this->paginate($filtered_categories);
         }
-
+        
         if (request()->has('category_id')){
             $categories = $categories->where('category_id', request('category_id'));
         }else{
             $categories = $categories->whereNull('category_id')
+                                     ->where('name', 'LIKE', '%' . $query['search'] . '%')
                                      ->orderBy('name', $query['sortBy']);
         }
 
