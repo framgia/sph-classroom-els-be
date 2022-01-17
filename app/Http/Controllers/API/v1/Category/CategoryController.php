@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\v1\Category;
 
+use App\Traits\CategoryFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
@@ -12,7 +13,7 @@ use App\Traits\Pagination;
 class CategoryController extends Controller
 {
 
-    use Pagination;
+    use Pagination, CategoryFilter;
 
     /**
      * Display a listing of Categories.
@@ -21,10 +22,15 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $query = request()->query();
         
         $categories = Category::withCount('subcategories');
 
-        $query = request()->query();
+        if(isset($query['filter'])){
+            $filtered_categories = $this->filter($query);
+
+            return $this->paginate($filtered_categories);
+        }
 
         if (request()->has('category_id')){
             $categories = $categories->where('category_id', request('category_id'));
