@@ -23,10 +23,14 @@ class CategoryController extends Controller
     {
         
         $categories = Category::withCount('subcategories');
+
+        $query = request()->query();
+
         if (request()->has('category_id')){
             $categories = $categories->where('category_id', request('category_id'));
         }else{
-            $categories = $categories->whereNull('category_id');
+            $categories = $categories->where('name', 'LIKE', '%' . $query['search'] . '%')
+                                     ->whereNull('category_id');
         }
 
         return $this->paginate($categories->get());
