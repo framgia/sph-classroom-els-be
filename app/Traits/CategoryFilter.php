@@ -19,7 +19,9 @@ trait CategoryFilter
                                     ->pluck('category_id')
                                     ->all();
 
-            $taken_categories = Category::wherein('id', $taken_category)->get();
+            $taken_categories = Category::wherein('id', $taken_category)
+                                        ->whereNull('category_id')
+                                        ->get();
 
             return $taken_categories;
         } elseif ($query['filter'] === "not taken"){
@@ -29,7 +31,9 @@ trait CategoryFilter
                                         ->pluck('category_id')
                                         ->all();
 
-            $not_taken_categories = Category::whereNotIn('id', $not_taken_category)->get();
+            $not_taken_categories = Category::whereNotIn('id', $not_taken_category)
+                                            ->whereNull('category_id')
+                                            ->get();
 
             return $not_taken_categories;
         }
