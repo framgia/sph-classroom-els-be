@@ -12,7 +12,7 @@ trait CategoryFilter
 {
     protected function filter($query)
     {
-        if ($query['filter'] === "taken"){
+        if ($query['filter'] === "Taken"){
             $taken_category = Quiz::join('quizzes_taken', 'quizzes.id', '=', 'quizzes_taken.quiz_id')
                                     ->where('quizzes_taken.user_id', Auth::user()->id)
                                     ->get()
@@ -21,10 +21,11 @@ trait CategoryFilter
 
             $taken_categories = Category::wherein('id', $taken_category)
                                         ->whereNull('category_id')
+                                        ->orderBy('name', $query['sortBy'])
                                         ->get();
 
             return $taken_categories;
-        } elseif ($query['filter'] === "not taken"){
+        } elseif ($query['filter'] === "Not Taken"){
             $not_taken_category = Quiz::join('quizzes_taken', 'quizzes.id', '=', 'quizzes_taken.quiz_id')
                                         ->where('quizzes_taken.user_id', Auth::user()->id)
                                         ->get()
@@ -33,6 +34,7 @@ trait CategoryFilter
 
             $not_taken_categories = Category::whereNotIn('id', $not_taken_category)
                                             ->whereNull('category_id')
+                                            ->orderBy('name', $query['sortBy'])
                                             ->get();
 
             return $not_taken_categories;
