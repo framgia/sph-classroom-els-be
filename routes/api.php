@@ -59,6 +59,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/followedLog', [StudentActivitiesController::class, 'followedActivities']);
 
         Route::get('/friendscore/{quiz_id}', [UserfriendsScoreController::class, 'friendsScore']);
-        Route::get('/QuizeAttempts/{quiz_id}', [UserScoresAndAttemptsController::class, 'UserScoreAndAttempts']);
+        Route::get('/QuizAttempts/{quiz_id}', [UserScoresAndAttemptsController::class, 'UserScoreAndAttempts']);
     });
 });
