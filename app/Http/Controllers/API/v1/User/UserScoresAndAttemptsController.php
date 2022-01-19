@@ -14,8 +14,8 @@ class UserScoresAndAttemptsController extends Controller
         $id = Auth::user()->id;
 
         $recent = Quiz::join('quizzes_taken', 'quizzes.id', '=',  'quizzes_taken.quiz_id',)
-            ->where('quizzes_taken.user_id', '=', $id)
-            ->where('quizzes_taken.quiz_id', '=', $request->quiz_id)
+            ->where('quizzes_taken.user_id', $id)
+            ->where('quizzes_taken.quiz_id', $request->quiz_id)
             ->orderByDesc('quizzes_taken.created_at')
             ->get();
 
