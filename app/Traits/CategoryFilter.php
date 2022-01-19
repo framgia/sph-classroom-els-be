@@ -25,6 +25,7 @@ trait CategoryFilter
         }
 
         $categories = $categories->whereNull('category_id')
+                                 ->where('name', 'LIKE', '%' . $query['search'] . '%')
                                  ->orderBy('name', $query['sortBy'])
                                  ->get();
 
