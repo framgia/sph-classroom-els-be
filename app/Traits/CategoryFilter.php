@@ -12,33 +12,22 @@ trait CategoryFilter
 {
     protected function filter($query)
     {
+        $taken_quizzes_id = Quiz::join('quizzes_taken', 'quizzes.id', '=', 'quizzes_taken.quiz_id')
+                            ->where('quizzes_taken.user_id', Auth::user()->id)
+                            ->get()
+                            ->pluck('category_id')
+                            ->all();
+
         if ($query['filter'] === "Taken"){
-            $taken_category = Quiz::join('quizzes_taken', 'quizzes.id', '=', 'quizzes_taken.quiz_id')
-                                    ->where('quizzes_taken.user_id', Auth::user()->id)
-                                    ->get()
-                                    ->pluck('category_id')
-                                    ->all();
-
-            $taken_categories = Category::wherein('id', $taken_category)
-                                        ->whereNull('category_id')
-                                        ->orderBy('name', $query['sortBy'])
-                                        ->get();
-
-            return $taken_categories;
+            $categories = Category::wherein('id', $taken_quizzes_id);
         } elseif ($query['filter'] === "Not Taken"){
-            $not_taken_category = Quiz::join('quizzes_taken', 'quizzes.id', '=', 'quizzes_taken.quiz_id')
-                                        ->where('quizzes_taken.user_id', Auth::user()->id)
-                                        ->get()
-                                        ->pluck('category_id')
-                                        ->all();
-
-            $not_taken_categories = Category::whereNotIn('id', $not_taken_category)
-                                            ->whereNull('category_id')
-                                            ->orderBy('name', $query['sortBy'])
-                                            ->get();
-
-            return $not_taken_categories;
+            $categories = Category::whereNotIn('id', $taken_quizzes_id);
         }
-    }
 
+        $categories = $categories->whereNull('category_id')
+                                 ->orderBy('name', $query['sortBy'])
+                                 ->get();
+
+        return $categories;
+    }
 }
