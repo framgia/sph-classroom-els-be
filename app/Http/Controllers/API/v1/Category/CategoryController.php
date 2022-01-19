@@ -36,6 +36,7 @@ class CategoryController extends Controller
             $categories = $categories->where('category_id', request('category_id'));
         }else{
             $categories = $categories->whereNull('category_id')
+                                     ->where('name', 'LIKE', '%' . $query['search'] . '%')
                                      ->orderBy('name', $query['sortBy']);
         }
 
