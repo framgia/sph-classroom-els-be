@@ -43,17 +43,17 @@ class QuizController extends Controller
     public function relatedQuizzes(Request $request)
     {    
         $relatedQuizzes = Category::join('quizzes', 'categories.id', '=', 'quizzes.category_id')
-                                ->where('categories.id', $request->category_id)
-                                ->where('quizzes.id', '!=', $request->quiz_id )
-                                ->limit(4)
-                                ->get();
+             ->where('categories.id', $request->category_id)
+             ->where('quizzes.id', '!=', $request->quiz_id )
+            ->limit(4)
+            ->get();
         
         $relatedQuizzesId = $relatedQuizzes->pluck('quiz_id')->all();
 
         $attempts = QuizTaken::whereIn('quiz_id', $relatedQuizzesId)
-                               ->where('user_id', Auth::user()->id)
-                               ->orderBy('quiz_id', 'asc')
-                               ->get();
+             ->where('user_id', Auth::user()->id)
+             ->orderBy('quiz_id', 'asc')
+             ->get();
 
         $response = [
             'relatedQuizzes' => $relatedQuizzes,
