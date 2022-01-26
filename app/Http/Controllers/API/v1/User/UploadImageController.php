@@ -15,10 +15,10 @@ class UploadImageController extends Controller
         $id = Auth::user()->id;
         $user = User::find($id);
 
-        $user->avatar = $user->name . '-' . time() . '.' . $request->image->extension();
+        $user->avatar =  $request->image->getClientOriginalName();
         $user->save();
 
-        $image = $user->name . '-' . time() . '.' . $request->image->extension();
+        $image =  $request->image->getClientOriginalName();
         
         $request->image->move(public_path('avatar'), $image);
     

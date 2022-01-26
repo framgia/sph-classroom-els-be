@@ -24,7 +24,7 @@ class ChangeNameEmailRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|max:15',
             'email' => 'required|string|ends_with:sun-asterisk.com,gmail.com,yahoo.com',
         ];
     }
