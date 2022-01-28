@@ -6,6 +6,7 @@ use App\Http\Controllers\API\v1\User\UserController;
 use App\Http\Controllers\API\v1\Category\CategoryController;
 use App\Http\Controllers\API\v1\Quiz\QuizController;
 use App\Http\Controllers\API\v1\Auth\AuthController;
+use App\Http\Controllers\Api\V1\Auth\ChangeNameEmailController;
 use App\Http\Controllers\API\v1\Quiz\QuestionController;
 use App\Http\Controllers\API\v1\Auth\ForgotPasswordController;
 use App\Http\Controllers\API\v1\Auth\ChangePasswordController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\API\v1\Quiz\QuizzesTakenController;
 use App\Http\Controllers\API\v1\Student\StudentController;
 use App\Http\Controllers\API\v1\User\UserRecentQuizzesController;
 use App\Http\Controllers\API\v1\Student\StudentActivitiesController;
+use App\Http\Controllers\API\v1\User\UploadImageController;
 use App\Http\Controllers\API\v1\User\UserfriendsScoreController;
 use App\Http\Controllers\API\v1\User\UserScoresAndAttemptsController;
 
@@ -60,5 +62,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/categories/{category_id}/relatedQuizzes/{quiz_id}', [QuizController::class, 'relatedQuizzes']);
         Route::get('/friendscore/{quiz_id}', [UserfriendsScoreController::class, 'friendsScore']);
         Route::get('/quiz_attempts/{quiz_id}', [UserScoresAndAttemptsController::class, 'UserScoreAndAttempts']);
+        Route::post('/profileEdit', [ChangeNameEmailController::class, 'changeName']);
+        Route::post('/profileEdituploadImage', [UploadImageController::class, 'uploadImage']);
     });
 });
