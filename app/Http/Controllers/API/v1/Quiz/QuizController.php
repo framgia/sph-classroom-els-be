@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API\v1\Quiz;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Models\Quiz;
 use App\Traits\Pagination;
+use App\Models\Quiz;
+use App\Models\QuizTaken;
+use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
@@ -36,5 +38,28 @@ class QuizController extends Controller
         $quiz = Quiz::find($request->quiz);
 
         return $this->showOne($quiz);
+    }
+
+    public function relatedQuizzes(Request $request)
+    {    
+        $relatedQuizzes = Category::join('quizzes', 'categories.id', '=', 'quizzes.category_id')
+            ->where('categories.id', $request->category_id)
+            ->where('quizzes.id', '!=', $request->quiz_id )
+            ->limit(4)
+            ->get();
+        
+        $relatedQuizzesId = $relatedQuizzes->pluck('quiz_id')->all();
+
+        $attempts = QuizTaken::whereIn('quiz_id', $relatedQuizzesId)
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('quiz_id', 'asc')
+            ->get();
+
+        $response = [
+            'relatedQuizzes' => $relatedQuizzes,
+            'attempts' => $attempts
+        ];
+        
+        return $this->successResponse($response, 200);
     }
 }
