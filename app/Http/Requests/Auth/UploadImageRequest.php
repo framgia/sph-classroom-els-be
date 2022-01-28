@@ -24,14 +24,14 @@ class UploadImageRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1000',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ];
     }
     public function messages() 
     
     {
       return [
-        'upload image maximum of 1 mb only',
+        'image.max' =>'upload image maximum of 1 mb only',
       ];
     }
 }
