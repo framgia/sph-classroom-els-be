@@ -14,7 +14,9 @@ return [
     */
 
     'failed' => 'These credentials do not match our records.',
+    'email' => 'The provided email is incorrect.',
     'password' => 'The provided password is incorrect.',
+    'unauthorized' => 'You are not authorized to access this page.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];

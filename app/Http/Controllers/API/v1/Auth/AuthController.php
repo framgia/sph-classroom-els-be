@@ -13,22 +13,23 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request)
     {
+        define('ADMIN_TYPE_ID', 1);
+
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            if(!$user){
-                return $this->errorResponse(['error' => 'The email you’ve entered is incorrect.'], 401);
-            } else {
-                return $this->errorResponse(['error' => 'The password you’ve entered is incorrect.'], 401);
-            }
-           
+        if($user && $user->user_type->user_type != $request->loginType){
+            return $this->errorResponse(['unauthorized' => trans('auth.unauthorized')], 403);
         }
 
-        $token = $user->createToken('access_token')->plainTextToken;
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return $this->errorResponse([ !$user ? 'email' : 'password' => !$user ? trans('auth.email') : trans('auth.password')], 401);           
+        }
+
+        $token = $user->user_type_id != ADMIN_TYPE_ID ? $user->createToken('access_token') : $user->createToken('access_token', ['admin']);
 
         $response = [
             'user' => $user,
-            'token' => $token
+            'token' => $token->plainTextToken
         ];
 
         return $this->authResponse($response);
