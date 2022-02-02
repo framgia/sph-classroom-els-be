@@ -38,7 +38,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/reset-password', [ForgotPasswordController::class, 'reset']);
 
     // Authenticated routes
-    Route::middleware(['auth:sanctum'])->group(function () {
+    Route::middleware(['auth:sanctum', 'api'])->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/user', [AuthController::class, 'user']);
 
@@ -63,6 +63,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/friendscore/{quiz_id}', [UserfriendsScoreController::class, 'friendsScore']);
         Route::get('/quiz_attempts/{quiz_id}', [UserScoresAndAttemptsController::class, 'UserScoreAndAttempts']);
         Route::post('/profileEdit', [ChangeNameEmailController::class, 'changeName']);
-        Route::post('/profileEdituploadImage', [UploadImageController::class, 'uploadImage']);
+        // Route::get('/profileEdituploadImage', [UploadImageController::class, 'uploadImage']);
+        Route::post('/test', [UploadImageController::class, 'uploadImage']);
     });
 });
