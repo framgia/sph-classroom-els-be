@@ -3,17 +3,19 @@
 namespace App\Http\Controllers\API\v1\Student;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Traits\Pagination;
-use App\Traits\StudentFilter;
 use Illuminate\Http\Request;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\Pagination;
+use App\Traits\StudentFilter;
+use App\Traits\StudentAvatar;
+use App\Models\User;
+
 
 class StudentController extends Controller
 {
-    use Pagination, StudentFilter;
+    use Pagination, StudentFilter, StudentAvatar;
 
     public function index()
     {
@@ -29,7 +31,7 @@ class StudentController extends Controller
      
         $students = User::searchAndExcludeLoggedInUserAndAdmins($id, $query['search'])->get();
 
-        return $this->paginate(Auth::user()->attachFollowStatus($students));
+        return $this->paginate($this->attachAvatarURL(Auth::user()->attachFollowStatus($students)));
     }
 
      /**
