@@ -7,9 +7,12 @@ use App\Models\QuizTaken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Traits\StudentAvatar;
 
 class UserfriendsScoreController extends Controller
 {
+    use StudentAvatar;
+
     public function friendsScore(Request $request)
     {
         $followedUsers = DB::table('user_follower')
@@ -27,7 +30,6 @@ class UserfriendsScoreController extends Controller
 
         $uniqueUser = $followedUsersActivities->unique('user_id')->values();
 
-        return $this->showAll($uniqueUser);
+        return $this->showAll($this->attachAvatarURL($uniqueUser));
     }
-
 }
