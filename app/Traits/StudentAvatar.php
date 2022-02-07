@@ -2,8 +2,6 @@
 
 namespace App\Traits;
 
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 trait StudentAvatar
