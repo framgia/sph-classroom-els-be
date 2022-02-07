@@ -16,4 +16,4 @@ trait StudentAvatar
 
         return $students;
     }
-}
+} 

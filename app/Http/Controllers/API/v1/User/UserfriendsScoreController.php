@@ -32,4 +32,4 @@ class UserfriendsScoreController extends Controller
 
         return $this->showAll($this->attachAvatarURL($uniqueUser));
     }
-}
+} 
