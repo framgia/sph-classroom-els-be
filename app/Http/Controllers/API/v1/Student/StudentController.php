@@ -9,6 +9,7 @@ use App\Traits\StudentFilter;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -45,9 +46,11 @@ class StudentController extends Controller
 
         $number_of_quizzes_taken = DB::table('quizzes_taken')->where('user_id', $request->id)->count();
 
+        $url = Storage::url( 'avatar/' . $student->avatar);
         $response = [
             'details' => Auth::user()->attachFollowStatus($student),
-            'quizzesTaken' => $number_of_quizzes_taken
+            'quizzesTaken' => $number_of_quizzes_taken,
+            'avatar' => 'http://localhost:82' . $url
         ];
 
         return $this->successResponse($response, 200);
