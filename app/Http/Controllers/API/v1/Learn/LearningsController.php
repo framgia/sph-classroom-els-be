@@ -21,7 +21,6 @@ class LearningsController extends Controller
                                 ->join('categories', 'quizzes.category_id', '=', 'categories.id')
                                 ->where('quizzes_taken.user_id', $id)
                                 ->orderByDesc('quizzes_taken.created_at')
-                                ->limit(12)
                                 ->get()
                                 ->unique('quiz_id')
                                 ->values();
