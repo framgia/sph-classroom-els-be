@@ -19,6 +19,7 @@ use App\Http\Controllers\API\v1\Student\StudentActivitiesController;
 use App\Http\Controllers\API\v1\User\UploadImageController;
 use App\Http\Controllers\API\v1\User\UserfriendsScoreController;
 use App\Http\Controllers\API\v1\User\UserScoresAndAttemptsController;
+use App\Http\Controllers\API\v1\Learn\LearningsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,7 @@ Route::prefix('v1')->group(function () {
         Route::resource('/quizzes-taken', QuizzesTakenController::class);
         Route::resource('/quizzes-taken.answers', QuizAnswerController::class);
         Route::post('/change-password', [ChangePasswordController::class, 'changePassword']);
+        Route::get('/learnings', [LearningsController::class, 'show']);
 
         Route::get('/students', [StudentController::class, 'index']);
         Route::get('/students/{id}', [StudentController::class, 'show']);
