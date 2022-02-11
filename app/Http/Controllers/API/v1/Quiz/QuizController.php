@@ -62,4 +62,14 @@ class QuizController extends Controller
         
         return $this->successResponse($response, 200);
     }
+
+    public function adminQuiz(Request $request)
+    {
+        $id = Auth::user()->id;
+        
+        $admin_quizzes = Category::join('quizzes', 'categories.id', '=', 'quizzes.category_id')
+                                ->get();
+
+        return $this->paginate($admin_quizzes);
+    }
 }
