@@ -16,7 +16,7 @@ class ChangeNameEmailController extends Controller
         $user = Auth::user();
    
         if (!Hash::check($request->password, $user->password)) {
-            return $this->errorResponse(['password' => 'The password you have entered is incorrect.'], 401);
+            return $this->errorResponse(['password' => trans('auth.password')], 401);
         }
 
         $user->name = $request['name'];
