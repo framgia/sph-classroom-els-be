@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1\Quiz;
 
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Quiz\StoreQuizRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Traits\Pagination;
@@ -71,5 +72,20 @@ class QuizController extends Controller
                                 ->get();
 
         return $this->paginate($admin_quizzes);
+    }
+
+    public function adminAdd(Request $request)
+    {
+        $quiz = new Quiz;
+        $quiz->title = 'test title';
+        $quiz->instruction = 'test instruction';
+        $quiz->save();
+
+        // $quiz = Quiz::create([
+        //     'instruction' => 'test instruction',
+        //     'title' => 'test title',
+        // ]);
+
+        return $this->successResponse('test', 200);
     }
 }
