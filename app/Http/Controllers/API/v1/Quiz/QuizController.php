@@ -74,18 +74,18 @@ class QuizController extends Controller
         return $this->paginate($admin_quizzes);
     }
 
-    public function adminAdd(Request $request)
+    public function adminAdd(StoreQuizRequest $request)
     {
-        $quiz = new Quiz;
-        $quiz->title = 'test title';
-        $quiz->instruction = 'test instruction';
-        $quiz->save();
+        $quiz = Quiz::create([
+            'instruction' => $request->instruction,
+            'category_id' => $request->category_id,
+            'title' => $request->title,
+        ]);
 
-        // $quiz = Quiz::create([
-        //     'instruction' => 'test instruction',
-        //     'title' => 'test title',
-        // ]);
+        $response = [
+            'quiz' => $quiz
+        ];
 
-        return $this->successResponse('test', 200);
+        return $this->successResponse($response, 200);
     }
 }
