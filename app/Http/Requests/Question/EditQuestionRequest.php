@@ -4,7 +4,7 @@ namespace App\Http\Requests\Question;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddEditQuestionRequest extends FormRequest
+class EditQuestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,10 +28,8 @@ class AddEditQuestionRequest extends FormRequest
             'quiz_id' => 'required|integer',
             'question' => 'required|string',
             'time_limit' => 'required|integer',
-            'text_answer' => 'required|string',
-            // 'choice' => 'required',
-            // 'question_id' => 'required',
-            // 'is_correct' => 'required',
+            'text_answer' => 'string',
+            'question_id' => 'required|integer',
         ];
     }
 }

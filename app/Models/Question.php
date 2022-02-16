@@ -26,7 +26,9 @@ class Question extends Model
         'question',
         'image',
         'time_limit',
-        'text_answer'
+        'text_answer',
+        'question_type_id',
+        'quiz_id'
     ];
 
     /*

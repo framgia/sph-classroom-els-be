@@ -23,6 +23,7 @@ class Choice extends Model
     protected $fillable = [
         'choice',
         'is_correct',
+        'question_id'
     ];
 
     /**

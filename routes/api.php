@@ -71,8 +71,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/admin/add-category', [CategoryController::class, 'store']);
         Route::get('/admin/categories', [CategoryController::class, 'getCategories']);
 
-        Route::post('/Add.questions', [QuestionController::class, 'addQuestion']);
-        Route::post('/Edit.questions', [QuestionController::class, 'editQuestion']);
-        
+        Route::post('/admin_Add_question', [QuestionController::class, 'addQuestion']);
+        Route::post('/admin_Add_choices', [QuestionController::class, 'addChoices']);
+        Route::post('/admin_Edit_question', [QuestionController::class, 'editQuestion']);
     });
 });

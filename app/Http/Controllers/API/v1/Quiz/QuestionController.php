@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API\v1\Quiz;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Question\AddEditQuestionRequest;
+use App\Http\Requests\Choices\ChoiceRequest;
+use App\Http\Requests\Question\AddQuestionRequest;
+use App\Http\Requests\Question\EditQuestionRequest;
 use App\Models\Choice;
 use App\Models\Question;
 use App\Models\QuestionType;
@@ -27,40 +29,76 @@ class QuestionController extends Controller
         return $this->showAll($questions, 200);
     }
 
-    public function addQuestion(AddEditQuestionRequest $request, Quiz $quiz)
+    /**
+     * Add questions.
+     *
+     * @param Quiz $quiz
+     * @return \Illuminate\Http\Response
+     */
+
+    public function addQuestion(AddQuestionRequest $request)
     {
-
-        $questionType = QuestionType::where()->question_type_id;
-        // $choices = Choice::where()->choice;
-        $quizId = Quiz::where()->quiz_id;
-        $quizAdd = $quiz->$quizId;
-
-        // $addquestion = Question::create([
-        //     'quiz_id' => $request->quiz_id,
-        //     'question' => $request->question,
-        //     'question_type_id' => $request->question_type_id,
-        //     'time_limit' => $request->time_limit,
-        //     'text_answer' => $request->text_answer,
-        // ]);
-
-        $addquestion = Question::create([
-            // 'quiz_id' => $request->quiz_id,
+        $question = Question::create([
+            'quiz_id' => $request->quiz_id,
+            'question_type_id' => $request->question_type_id,
             'question' => $request->question,
-            // $addQuestion->question_type_id = $request['question_type_id'],
             'time_limit' => $request->time_limit,
             'text_answer' => $request->text_answer,
-            // QuestionType::where('question_type_id', $request),
-            // Choice::where('choice', $request),
-            // Quiz::where('quiz_id', $request),
-        ])->where($questionType, $request)
-        ->where($quizAdd, $request);
-
-        // $addquestion->save();
+        ]);
 
         $response = [
-            'question' => $addquestion,
+            'question' => $question,
         ];
 
-        return $response;
+        return $this->successResponse($response, 200);
+    }
+
+      /**
+     * Add Choice.
+     *
+     * @param Quiz $quiz
+     * @return \Illuminate\Http\Response
+     */
+
+    public function addChoices(ChoiceRequest $request)
+    {
+        $choice = Choice::create([
+            'question_id' => $request->question_id,
+            'choice' => $request->choice,
+            'is_correct' => $request->is_correct,
+        ]);
+
+        $response = [
+            'choices' => $choice,
+        ];
+
+        return $this->successResponse($response, 200);
+    }
+
+      /**
+     * Edit questions.
+     *
+     * @param Quiz $quiz
+     * @return \Illuminate\Http\Response
+     */
+
+    public function editQuestion(EditQuestionRequest $request)
+    {
+
+        $editQuestion = Question::find($request->question_id);
+
+        $editQuestion->quiz_id = $request['quiz_id'];
+        $editQuestion->question_type_id = $request['question_type_id'];
+        $editQuestion->question = $request['question'];
+        $editQuestion->time_limit = $request['time_limit'];
+        $editQuestion->text_answer = $request['text_answer'];
+
+        $editQuestion->save();
+
+        $response = [
+            'question' => $editQuestion,
+        ];
+
+        return $this->successResponse($response, 200);
     }
 }
