@@ -74,7 +74,7 @@ class QuizController extends Controller
         return $this->paginate($admin_quizzes);
     }
 
-    public function adminAdd(StoreQuizRequest $request)
+    public function addQuiz(StoreQuizRequest $request)
     {
         $quiz = Quiz::create([
             'instruction' => $request->instruction,

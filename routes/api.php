@@ -63,7 +63,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/followedLog', [StudentActivitiesController::class, 'followedActivities']);
         Route::get('/categories/{category_id}/relatedQuizzes/{quiz_id}', [QuizController::class, 'relatedQuizzes']);
         Route::get('/admin_quizzes', [QuizController::class, 'adminQuiz']);
-        Route::post('/admin_add', [QuizController::class, 'adminAdd']);
+        Route::post('/admin/add-quiz', [QuizController::class, 'addQuiz']);
         Route::get('/friendscore/{quiz_id}', [UserfriendsScoreController::class, 'friendsScore']);
         Route::get('/quiz_attempts/{quiz_id}', [UserScoresAndAttemptsController::class, 'UserScoreAndAttempts']);
         Route::post('/profileEdit', [ChangeNameEmailController::class, 'changeName']);
