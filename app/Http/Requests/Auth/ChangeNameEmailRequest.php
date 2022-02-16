@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ChangeNameEmailRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class ChangeNameEmailRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:15',
-            'email' => 'required|string|ends_with:sun-asterisk.com,gmail.com,yahoo.com',
+            'email' => 'required|string|ends_with:sun-asterisk.com,gmail.com,yahoo.com|unique:users,email,' . Auth::user()->id
         ];
     }
 
