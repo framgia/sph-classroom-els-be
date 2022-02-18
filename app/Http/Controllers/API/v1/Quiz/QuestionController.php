@@ -4,15 +4,14 @@ namespace App\Http\Controllers\API\v1\Quiz;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Choices\ChoiceRequest;
+use App\Http\Requests\Choices\EditChoiceRequest;
 use App\Http\Requests\Question\AddQuestionRequest;
 use App\Http\Requests\Question\EditQuestionRequest;
 use App\Models\Choice;
 use App\Models\Question;
-use App\Models\QuestionType;
-use Illuminate\Http\Request;
 use App\Models\Quiz;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+
+
 
 class QuestionController extends Controller
 {
@@ -32,7 +31,7 @@ class QuestionController extends Controller
     /**
      * Add questions.
      *
-     * @param Quiz $quiz
+     * @param AddQuestionRequest $request
      * @return \Illuminate\Http\Response
      */
 
@@ -56,7 +55,7 @@ class QuestionController extends Controller
       /**
      * Add Choice.
      *
-     * @param Quiz $quiz
+     * @param ChoiceRequest $request
      * @return \Illuminate\Http\Response
      */
 
@@ -78,7 +77,7 @@ class QuestionController extends Controller
       /**
      * Edit questions.
      *
-     * @param Quiz $quiz
+     * @param EditQuestionRequest $request
      * @return \Illuminate\Http\Response
      */
 
@@ -97,6 +96,31 @@ class QuestionController extends Controller
 
         $response = [
             'question' => $editQuestion,
+        ];
+
+        return $this->successResponse($response, 200);
+    }
+
+      /**
+     * Edit choices.
+     *
+     * @param EditChoiceRequest $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function editChoices(EditChoiceRequest $request)
+    {
+
+        $editChoices = Choice::find($request->choice_id);
+
+        $editChoices->question_id = $request['question_id'];
+        $editChoices->choice = $request['choice'];
+        $editChoices->is_correct = $request['is_correct'];
+
+        $editChoices->save();
+
+        $response = [
+            'Choice' => $editChoices,
         ];
 
         return $this->successResponse($response, 200);
