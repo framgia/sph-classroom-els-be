@@ -22,7 +22,8 @@ class Quiz extends Model
      */
     protected $fillable = [
         'instruction',
-        'title'
+        'title',
+        'category_id'
     ];
 
     /**
