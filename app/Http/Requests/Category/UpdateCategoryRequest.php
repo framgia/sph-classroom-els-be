@@ -25,9 +25,9 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(Category $category)
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:categories,name',
             'description' => 'required',
-            'image' => 'image',
+            'image' => 'image', 
             'category_id' => $category->category_id ? 'required' : ''
         ];
     }
