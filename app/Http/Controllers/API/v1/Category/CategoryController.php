@@ -78,16 +78,15 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        // dd($category->$category_id);
-        // $category->fill($request->only(['name', 'description', 'image', 'category_id']));
+        $category->fill($request->only(['name', 'description', 'image', 'category_id']));
 
-        // if($category->isClean()) {
-        //     return $this->errorResponse('You need to specify a different value to update', 422);
-        // }
+        if($category->isClean()) {
+            return $this->errorResponse('You need to specify a different value to update', 422);
+        }
 
-        // $category->update($request->all());
+        $category->update($request->all());
 
-        return $this->successResponse('test', 201);
+        return $this->showOne($category, 201);
     }
 
     /**

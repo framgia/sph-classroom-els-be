@@ -27,8 +27,7 @@ class UpdateCategoryRequest extends FormRequest
         return [
             'name' => 'required|unique:categories,name',
             'description' => 'required',
-            'image' => 'image', 
-            'category_id' => $category->category_id ? 'required' : ''
+            'image' => 'image'
         ];
     }
 }
