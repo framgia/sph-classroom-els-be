@@ -80,10 +80,6 @@ class CategoryController extends Controller
     {
         $category->fill($request->only(['name', 'description', 'image', 'category_id']));
 
-        if($category->isClean()) {
-            return $this->errorResponse('You need to specify a different value to update', 422);
-        }
-
         $category->update($request->all());
 
         return $this->showOne($category, 201);
