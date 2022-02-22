@@ -25,7 +25,7 @@ class StoreQuizRequest extends FormRequest
     {
         return [
             'instruction' => 'required|string',
-            'category_id' => 'required|string',
+            'category_id' => 'required',
             'title' => 'required|string', 
         ];
     }
