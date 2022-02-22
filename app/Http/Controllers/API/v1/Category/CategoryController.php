@@ -53,6 +53,7 @@ class CategoryController extends Controller
     {
        $newCategory = Category::create($request->all());
 
+
         return $this->showOne($newCategory, 201);
     }
 
@@ -78,10 +79,6 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->fill($request->only(['name', 'description', 'image', 'category_id']));
-
-        if($category->isClean()) {
-            return $this->errorResponse('You need to specify a different value to update', 422);
-        }
 
         $category->update($request->all());
 

@@ -43,5 +43,5 @@ class Category extends Model
     public function subcategories()
     {
         return $this->hasMany(self::class);
-    }
+    } 
 }

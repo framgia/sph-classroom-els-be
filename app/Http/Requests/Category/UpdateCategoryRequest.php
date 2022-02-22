@@ -4,6 +4,7 @@ namespace App\Http\Requests\Category;
 
 use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class UpdateCategoryRequest extends FormRequest
 {
@@ -22,13 +23,14 @@ class UpdateCategoryRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(Category $category)
+    public function rules(Request $request)
     {
+        $category = Category::where('name', $request->name)->first();
+        
         return [
-            'name' => 'required',
+            'name' => 'required|unique:categories,name,' . $category->id,
             'description' => 'required',
-            'image' => 'image',
-            'category_id' => $category->category_id ? 'required' : ''
+            'image' => 'image'
         ];
     }
 }
