@@ -29,4 +29,13 @@ class StoreCategoryRequest extends FormRequest
             'image' => 'image'
         ];
     }
+
+    public function messages() 
+    {
+      return [
+        'name.unique' => 'Category Title is Taken. Please try again....',
+        'name.required' => 'The Title Field is Required. Please try again....',
+        'description.required' => 'The Description Field is Required. Please try again....',
+      ];
+    }
 }
