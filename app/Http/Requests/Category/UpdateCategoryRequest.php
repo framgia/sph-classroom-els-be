@@ -5,6 +5,7 @@ namespace App\Http\Requests\Category;
 use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UpdateCategoryRequest extends FormRequest
 {
@@ -28,7 +29,10 @@ class UpdateCategoryRequest extends FormRequest
         $category = Category::where('name', $request->name)->first();
         
         return [
-            'name' => 'required|unique:categories,name,' . $category->id,
+            'name' => [
+                'required',
+                Rule::unique('categories','name')->ignore($category),
+            ],
             'description' => 'required',
             'image' => 'image'
         ];
