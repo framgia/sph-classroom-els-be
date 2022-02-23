@@ -97,4 +97,19 @@ class CategoryController extends Controller
 
         return $this->showOne($category);
     }
+
+    public function getCategories()
+    {
+        $query = request()->query();
+        
+        $categories = Category::withCount('subcategories');
+
+        if (request()->has('category_id')){
+            $categories = $categories->where('category_id', request('category_id'));
+        }else{
+            $categories = $categories->whereNull('category_id');
+        }
+
+        return $this->showAll($categories->get());
+    }
 }
