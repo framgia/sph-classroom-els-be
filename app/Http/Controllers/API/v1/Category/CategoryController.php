@@ -112,4 +112,27 @@ class CategoryController extends Controller
 
         return $this->showAll($categories->get());
     }
+
+    public function getSubcategoryParentCategories(Request $request)
+    {
+        $subcategory = Category::where('id', $request->subcategory_id)->first();
+
+        $categories = array($subcategory);
+
+        self::addParentCategory($categories, $subcategory);
+
+        return $this->successResponse(array_reverse($categories), 200);
+    }
+
+    private static function addParentCategory(&$categories, $category){
+        if($category->category_id){
+            $parentCategory = Category::where('id', $category->category_id)->first();
+
+            array_push($categories, $parentCategory);
+
+            if($parentCategory->category_id){
+                self::addParentCategory($categories, $parentCategory);
+            }
+        }
+    }
 }
