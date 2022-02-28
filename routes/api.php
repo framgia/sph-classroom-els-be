@@ -62,12 +62,14 @@ Route::prefix('v1')->group(function () {
         Route::get('/studentslog/{id}', [StudentActivitiesController::class, 'studentActivities']);
         Route::get('/followedLog', [StudentActivitiesController::class, 'followedActivities']);
         Route::get('/categories/{category_id}/relatedQuizzes/{quiz_id}', [QuizController::class, 'relatedQuizzes']);
-        Route::get('/admin_quizzes', [QuizController::class, 'adminQuiz']);
-        Route::post('/admin/add-quiz', [QuizController::class, 'addQuiz']);
         Route::get('/friendscore/{quiz_id}', [UserfriendsScoreController::class, 'friendsScore']);
         Route::get('/quiz_attempts/{quiz_id}', [UserScoresAndAttemptsController::class, 'UserScoreAndAttempts']);
         Route::post('/profileEdit', [ChangeNameEmailController::class, 'changeName']);
         Route::post('/profileEdituploadImage', [UploadImageController::class, 'uploadAvatar']);
+
+        //Admin Routes
+        Route::get('/admin_quizzes', [QuizController::class, 'adminQuiz']);
+        Route::post('/admin/add-quiz', [QuizController::class, 'addQuiz']);
         Route::post('/admin/add-category', [CategoryController::class, 'store']);
         Route::get('/admin/categories', [CategoryController::class, 'getCategories']);
         Route::post('/admin_add_question', [QuestionController::class, 'addQuestion']);
