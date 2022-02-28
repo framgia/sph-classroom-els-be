@@ -70,5 +70,10 @@ Route::prefix('v1')->group(function () {
         Route::post('/profileEdituploadImage', [UploadImageController::class, 'uploadAvatar']);
         Route::post('/admin/add-category', [CategoryController::class, 'store']);
         Route::get('/admin/categories', [CategoryController::class, 'getCategories']);
+
+        Route::post('/admin_add_question', [QuestionController::class, 'addQuestion']);
+        Route::post('/admin_add_choices', [QuestionController::class, 'addChoices']);
+        Route::post('/admin_edit_question', [QuestionController::class, 'editQuestion']);
+        Route::post('/admin_edit_choices', [QuestionController::class, 'editChoices']);
     });
 });
