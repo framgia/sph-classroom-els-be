@@ -18,5 +18,5 @@ return [
     'password' => 'The provided password is incorrect.',
     'unauthorized' => 'You are not authorized to access this page.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    'admin-created' => 'Successfully created an account for admin user. Invitation has been sent.'
 ];

@@ -20,6 +20,7 @@ use App\Http\Controllers\API\v1\User\UploadImageController;
 use App\Http\Controllers\API\v1\User\UserfriendsScoreController;
 use App\Http\Controllers\API\v1\User\UserScoresAndAttemptsController;
 use App\Http\Controllers\API\v1\Learn\LearningsController;
+use App\Http\Controllers\API\v1\Admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +69,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/profileEdituploadImage', [UploadImageController::class, 'uploadAvatar']);
 
         //Admin Routes
+        Route::post('/admin/create', [AdminController::class, 'store']);
         Route::get('/admin_quizzes', [QuizController::class, 'adminQuiz']);
         Route::post('/admin/add-quiz', [QuizController::class, 'addQuiz']);
         Route::post('/admin/add-category', [CategoryController::class, 'store']);
