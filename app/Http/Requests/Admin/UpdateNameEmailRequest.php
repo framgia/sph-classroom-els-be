@@ -26,7 +26,7 @@ class UpdateNameEmailRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:15',
-            'email' => 'required|string|ends_with:sun-asterisk.com,gmail.com,yahoo.com|unique:users,email,' . Auth::user()->id,
+            'email' => 'required|unique:users,email|string|ends_with:sun-asterisk.com,gmail.com,yahoo.com|unique:users,email,' . Auth::user()->id,
             'password' => 'required|string|min:6'
         ];
     }
@@ -34,8 +34,9 @@ class UpdateNameEmailRequest extends FormRequest
     public function messages() 
     {
       return [
-        'email.ends_with' => 'Your email is not valid',
-        'password.min' => 'Password must be at least 6 characters'
+        'email.unique' => 'The Email is Already Taken',
+        'email.ends_with' => 'Your Email is Not Valid',
+        'password.min' => 'Password Must Be at Least 6 Characters'
       ];
     }
 }
