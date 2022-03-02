@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\InvitationToJoinAsAdmin;
 use App\Http\Requests\Admin\StoreAdminRequest;
-use App\Http\Requests\Admin\SetPasswordRequest;
+use App\Http\Requests\Admin\SetAdminPasswordRequest;
 
 class AdminController extends Controller
 {
@@ -31,5 +31,19 @@ class AdminController extends Controller
         ];
 
         return $this->authResponse($response, 201);
+    }
+
+    public function setNewPassword(SetAdminPasswordRequest $request)
+    {
+        $admin = User::where([['email', $request->email], ['user_type_id', 1]])->first();
+
+        if(!$admin) {
+            return $this->errorResponse(['error' => 'There is no admin account associated with this email.'], 422);
+        }
+
+        $admin->password = bcrypt($request->password);
+        $admin->save();
+
+        return $this->successResponse(['message' => 'Your new password has been successfully saved.'], 200);
     }
 }

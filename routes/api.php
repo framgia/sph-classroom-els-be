@@ -39,6 +39,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/forgot-password', [ForgotPasswordController::class, 'forgotPassword']);
     Route::post('/reset-password', [ForgotPasswordController::class, 'reset']);
 
+    Route::patch('/admin/set-password', [AdminController::class, 'setNewPassword']);
+
     // Authenticated routes
     Route::middleware(['auth:sanctum', 'api',])->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
