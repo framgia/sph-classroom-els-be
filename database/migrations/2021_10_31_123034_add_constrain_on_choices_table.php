@@ -15,7 +15,7 @@ class AddConstrainOnChoicesTable extends Migration
     {
         Schema::table('choices', function (Blueprint $table) {
             $table->foreignId('question_id')->change()->constrained()->cascadeOnDelete();
-            $table->boolean('is_correct')->default(false);
+            // $table->boolean('is_correct')->change()->default(false);
             $table->softDeletes();
         });
     }
