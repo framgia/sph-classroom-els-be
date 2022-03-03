@@ -82,5 +82,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/admin_edit_choices', [QuestionController::class, 'editChoices']);
         Route::get('/admin/nested-categories/{subcategory_id}', [CategoryController::class, 'getSubcategoryParentCategories']);
         Route::post('/admin/profile-edit', [ChangeNameEmailController::class, 'restore']);
+        Route::patch('/admin/password-edit', [AdminController::class, 'updatePassword']);
     });
 });

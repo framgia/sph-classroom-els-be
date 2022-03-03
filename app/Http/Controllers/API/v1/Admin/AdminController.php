@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Notifications\InvitationToJoinAsAdmin;
 use App\Http\Requests\Admin\StoreAdminRequest;
 use App\Http\Requests\Admin\SetAdminPasswordRequest;
+use App\Http\Requests\Admin\UpdatePasswordRequest;
 
 class AdminController extends Controller
 {
@@ -45,5 +47,19 @@ class AdminController extends Controller
         $admin->save();
 
         return $this->successResponse(['message' => 'Your new password has been successfully saved.'], 200);
+    }
+
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+        $admin = Auth::user();
+
+        if(!Hash::check($request->password, $admin->password)){
+            return $this->errorResponse(['password' =>  trans('auth.password')], 401); 
+        }
+
+        $admin->password = bcrypt($request->new_password);
+        $admin->save();
+
+        return $this->successResponse(['message' => 'Your password has been successfully updated.'], 200);
     }
 }
