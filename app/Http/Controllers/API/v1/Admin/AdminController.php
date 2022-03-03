@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Notifications\InvitationToJoinAsAdmin;
 use App\Http\Requests\Admin\StoreAdminRequest;
 use App\Http\Requests\Admin\SetAdminPasswordRequest;
-use App\Http\Requests\Admin\updatePasswordRequest;
+use App\Http\Requests\Admin\UpdatePasswordRequest;
 
 class AdminController extends Controller
 {
@@ -49,7 +49,7 @@ class AdminController extends Controller
         return $this->successResponse(['message' => 'Your new password has been successfully saved.'], 200);
     }
 
-    public function updatePassword(updatePasswordRequest $request)
+    public function updatePassword(UpdatePasswordRequest $request)
     {
         $admin = Auth::user();
 
