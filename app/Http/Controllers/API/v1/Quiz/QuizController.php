@@ -10,10 +10,11 @@ use App\Traits\Pagination;
 use App\Models\Quiz;
 use App\Models\QuizTaken;
 use Illuminate\Http\Request;
+use App\Traits\QuizSort;
 
 class QuizController extends Controller
 {
-    use Pagination;
+    use Pagination, QuizSort;
     
     /**
      * Display a listing of all quizzes based on a.
@@ -66,12 +67,15 @@ class QuizController extends Controller
 
     public function adminQuiz(Request $request)
     {
-        $id = Auth::user()->id;
-        
-        $admin_quizzes = Category::join('quizzes', 'categories.id', '=', 'quizzes.category_id')
-                                ->get();
+        $query = request()->query();
 
-        return $this->paginate($admin_quizzes);
+        $quizzes = Category::join('quizzes', 'categories.id', '=', 'quizzes.category_id');
+
+        if(isset($query['sortDirection'])){
+            return $this->sort($query, $quizzes);
+        }
+
+        return $this->paginate($quizzes->get());
     }
 
     public function addQuiz(StoreQuizRequest $request)
