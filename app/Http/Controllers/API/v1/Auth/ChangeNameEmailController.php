@@ -23,19 +23,7 @@ class ChangeNameEmailController extends Controller
         $user->name = $request['name'];
         $user->email = $request['email'];
         $user->save();
-
         return $this->successResponse('successfully changed', 200);
     }
 
-    public function restore(UpdateNameEmailRequest $request)
-    {
-        $user = Auth::user();
-
-        $user->name = $request['name'];
-        $user->email = $request['email'];
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        return $this->successResponse('successfully changed', 200);
-    }
 }
