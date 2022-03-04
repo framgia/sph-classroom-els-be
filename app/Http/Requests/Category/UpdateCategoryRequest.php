@@ -32,4 +32,11 @@ class UpdateCategoryRequest extends FormRequest
             'image' => 'image'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => 'The Category Name has Already been Taken. Please try again....',
+        ];
+    }
 }
