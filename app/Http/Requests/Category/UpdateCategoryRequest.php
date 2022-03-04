@@ -36,7 +36,7 @@ class UpdateCategoryRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.unique' => 'The Category Name has Already been Taken. Please try again....',
+            'name.unique' => 'The Name has Already been Taken. Please try again....',
         ];
     }
 }
