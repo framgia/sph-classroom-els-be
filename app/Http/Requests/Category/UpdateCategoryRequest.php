@@ -5,7 +5,6 @@ namespace App\Http\Requests\Category;
 use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class UpdateCategoryRequest extends FormRequest
 {
@@ -26,15 +25,18 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        $category = Category::where('name', $request->name)->first();
-        
+
         return [
-            'name' => [
-                'required',
-                Rule::unique('categories','name')->ignore($category),
-            ],
+            'name' => "required|unique:categories,name,{$this->category->id}",
             'description' => 'required',
             'image' => 'image'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => 'The Name has Already been Taken. Please try again....',
         ];
     }
 }
