@@ -9,11 +9,12 @@ use App\Http\Requests\Category\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Traits\Pagination;
+use App\Traits\SortCategories;
 
 class CategoryController extends Controller
 {
 
-    use Pagination, CategoryFilter;
+    use Pagination, CategoryFilter, SortCategories;
 
     /**
      * Display a listing of Categories.
@@ -134,5 +135,18 @@ class CategoryController extends Controller
                 self::addParentCategory($categories, $parentCategory);
             }
         }
+    }
+
+    public function listOfCategories(Request $request)
+    {
+        $query = request()->query();
+
+        $categories = Category::withCount('subcategories');
+
+        if(isset($query['sortDirection'])){
+            return $this->sort($query, $categories);
+        }
+
+        return $this->paginate($categories->get());
     }
 }

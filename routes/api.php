@@ -75,7 +75,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin_quizzes', [QuizController::class, 'adminQuiz']);
         Route::post('/admin/add-quiz', [QuizController::class, 'addQuiz']);
         Route::post('/admin/add-category', [CategoryController::class, 'store']);
-        Route::get('/admin/categories', [CategoryController::class, 'getCategories']);
+        Route::get('/admin/categories-data', [CategoryController::class, 'getCategories']);
         Route::post('/admin_add_question', [QuestionController::class, 'addQuestion']);
         Route::post('/admin_add_choices', [QuestionController::class, 'addChoices']);
         Route::post('/admin_edit_question', [QuestionController::class, 'editQuestion']);
@@ -84,5 +84,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/admin/profile-edit', [ChangeNameEmailController::class, 'restore']);
         Route::patch('/admin/password-edit', [AdminController::class, 'updatePassword']);
         Route::get('/admin/users', [AdminController::class, 'getAdminAccounts']);
+        Route::get('/admin/categories', [CategoryController::class, 'listOfCategories']);
     });
 });
