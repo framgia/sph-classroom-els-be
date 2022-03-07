@@ -83,5 +83,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/nested-categories/{subcategory_id}', [CategoryController::class, 'getSubcategoryParentCategories']);
         Route::post('/admin/profile-edit', [ChangeNameEmailController::class, 'restore']);
         Route::patch('/admin/password-edit', [AdminController::class, 'updatePassword']);
+        Route::get('/admin/users', [AdminController::class, 'getAdminAccounts']);
     });
 });

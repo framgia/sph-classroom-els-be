@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Traits\Pagination;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\InvitationToJoinAsAdmin;
@@ -14,6 +15,8 @@ use App\Http\Requests\Admin\UpdatePasswordRequest;
 
 class AdminController extends Controller
 {
+    use Pagination;
+
     public function store(StoreAdminRequest $request)
     {
         define('ADMIN_TYPE_ID', 1);
@@ -61,5 +64,14 @@ class AdminController extends Controller
         $admin->save();
 
         return $this->successResponse(['message' => 'Your password has been successfully updated.'], 200);
+    }
+
+    public function getAdminAccounts()
+    {
+        define('ADMIN_TYPE_ID', 1);
+
+        $admins = User::where('user_type_id', ADMIN_TYPE_ID)->get();
+
+        return $this->paginate($admins);
     }
 }
