@@ -96,7 +96,7 @@ class User extends Authenticatable
                      ->where('user_type_id', 2);
     }
 
-    public function scopeSearchAndExcludeLoggedInUserAndStudents($query, $id, $search)
+    public function scopeSearchOtherAdminAccounts($query, $id, $search)
     {
         return $query->where('name', 'LIKE', '%' . $search . '%')
                      ->orWhere('email', 'LIKE', '%' . $search . '%');
