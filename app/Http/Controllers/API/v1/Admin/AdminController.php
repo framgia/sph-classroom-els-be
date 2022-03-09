@@ -68,9 +68,14 @@ class AdminController extends Controller
 
     public function getAdminAccounts()
     {
-        define('ADMIN_TYPE_ID', 1);
+        $id = Auth::user()->id;
 
-        $admins = User::where('user_type_id', ADMIN_TYPE_ID)->get();
+        $query = request()->query();
+
+        $admins = User::searchOtherAdminAccounts($id, $query['search'])
+                        ->where('id', '!=', $id)
+                        ->where('user_type_id', 1)
+                        ->get();
 
         return $this->paginate($admins);
     }
