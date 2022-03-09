@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateUserRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 
 class UserController extends Controller
@@ -17,7 +18,13 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $this->showOne($user);
+        $url = Storage::url( 'avatar/' . $user->avatar);
+        $response = [
+            $user,
+            'avatar' => 'http://localhost:82' . $url
+        ];
+
+        return $this->successResponse($response, 200); 
     }
 
     /**
