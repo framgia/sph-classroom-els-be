@@ -10,8 +10,7 @@ use App\Http\Requests\Question\EditQuestionRequest;
 use App\Models\Choice;
 use App\Models\Question;
 use App\Models\Quiz;
-
-
+use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
@@ -81,24 +80,30 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function editQuestion(EditQuestionRequest $request)
+    public function editQuestion(Request $request)
     {
+        $questions = $request->questions;
+        $quiz_id = (int)$request->quizId;
+        foreach ($questions as $question) {
+            $findQuestion = Question::where('quiz_id', $quiz_id)
+                                    ->where('id', $question['id'])
+                                    ->exists();
+            if ($findQuestion) {
+                // Question currently exists in the quiz
+                $newQuestion = Question::find($question['id']);
+                $newQuestion->question_type_id = $question['question_type_id'];
+                $newQuestion->question = $question['question'];
+                $newQuestion->time_limit = $question['time_limit'];
+                if ($question['question_type_id'] == 2) {
+                    $newQuestion->text_answer = $question['text_answer'];
+                }
+                $newQuestion->save();
+            } else {
+                // Question does not exist in the quiz
+            }
+        }
 
-        $editQuestion = Question::find($request->question_id);
-
-        $editQuestion->quiz_id = $request['quiz_id'];
-        $editQuestion->question_type_id = $request['question_type_id'];
-        $editQuestion->question = $request['question'];
-        $editQuestion->time_limit = $request['time_limit'];
-        $editQuestion->text_answer = $request['text_answer'];
-
-        $editQuestion->save();
-
-        $response = [
-            'question' => $editQuestion,
-        ];
-
-        return $this->successResponse($response, 200);
+        return $this->successResponse('$response', 200);
     }
 
       /**
