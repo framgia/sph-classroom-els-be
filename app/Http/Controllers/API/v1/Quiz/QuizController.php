@@ -69,7 +69,12 @@ class QuizController extends Controller
     {
         $query = request()->query();
 
-        $quizzes = Category::join('quizzes', 'categories.id', '=', 'quizzes.category_id');
+        $quizzes = Category::join('quizzes', 'categories.id', '=', 'quizzes.category_id')
+            ->where('quizzes.title', 'LIKE', '%' . $query['search'] . '%');
+
+        if(isset($query['filter'])){
+            $quizzes->where('categories.name', $query['filter']);
+        }
 
         if(isset($query['sortDirection'])){
             return $this->sort($query, $quizzes);

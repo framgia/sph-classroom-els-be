@@ -147,6 +147,10 @@ class CategoryController extends Controller
             return $this->sort($query, $categories);
         }
 
+        if($query['listCondition'] === 'unpaginated'){
+            return $this->showAll($categories->get());
+        }
+
         return $this->paginate($categories->get());
     }
 }
