@@ -74,9 +74,12 @@ class AdminController extends Controller
 
         $admins = User::searchOtherAdminAccounts($id, $query['search'])
                         ->where('id', '!=', $id)
-                        ->where('user_type_id', 1)
-                        ->get();
+                        ->where('user_type_id', 1);
 
-        return $this->paginate($admins);
+        if(isset($query['sortDirection'])){
+            return $admins->orderBy($query['sortBy'], strtolower($query['sortDirection']))->paginate(12);
+        }
+
+        return $this->paginate($admins->get());
     }
 }
