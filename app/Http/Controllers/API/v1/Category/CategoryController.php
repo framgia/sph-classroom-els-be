@@ -149,4 +149,11 @@ class CategoryController extends Controller
 
         return $this->paginate($categories->get());
     }
+
+    public function getUnpaginatedCategoryList() 
+    {
+        $categories = Category::all();
+
+        return $this->showAll($categories);
+    }
 }

@@ -85,5 +85,6 @@ Route::prefix('v1')->group(function () {
         Route::patch('/admin/password-edit', [AdminController::class, 'updatePassword']);
         Route::get('/admin/users', [AdminController::class, 'getAdminAccounts']);
         Route::get('/admin/categories', [CategoryController::class, 'listOfCategories']);
+        Route::get('/admin/unpaginated-categories', [CategoryController::class, 'getUnpaginatedCategoryList']);
     });
 });
