@@ -6,7 +6,7 @@ use App\Http\Controllers\API\v1\User\UserController;
 use App\Http\Controllers\API\v1\Category\CategoryController;
 use App\Http\Controllers\API\v1\Quiz\QuizController;
 use App\Http\Controllers\API\v1\Auth\AuthController;
-use App\Http\Controllers\Api\V1\Auth\ChangeNameEmailController;
+use App\Http\Controllers\API\v1\Auth\ChangeNameEmailController;
 use App\Http\Controllers\API\v1\Quiz\QuestionController;
 use App\Http\Controllers\API\v1\Auth\ForgotPasswordController;
 use App\Http\Controllers\API\v1\Auth\ChangePasswordController;
