@@ -4,8 +4,6 @@ namespace App\Http\Controllers\API\v1\Quiz;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Choices\ChoiceRequest;
-use App\Http\Requests\Choices\EditChoiceRequest;
-use App\Http\Requests\Question\AddQuestionRequest;
 use App\Http\Requests\Question\EditQuestionRequest;
 use App\Models\Choice;
 use App\Models\Question;
@@ -27,50 +25,40 @@ class QuestionController extends Controller
         return $this->showAll($questions, 200);
     }
 
-    /**
-     * Add questions.
-     *
-     * @param AddQuestionRequest $request
-     * @return \Illuminate\Http\Response
-     */
-
-    public function addQuestion(AddQuestionRequest $request)
-    {
-        $question = Question::create([
-            'quiz_id' => $request->quiz_id,
-            'question_type_id' => $request->question_type_id,
-            'question' => $request->question,
-            'time_limit' => $request->time_limit,
-            'text_answer' => $request->text_answer,
-        ]);
-
-        $response = [
-            'question' => $question,
-        ];
-
-        return $this->successResponse($response, 200);
-    }
-
       /**
-     * Add Choice.
+     * Upsert Choice.
      *
      * @param ChoiceRequest $request
      * @return \Illuminate\Http\Response
      */
 
-    public function addChoices(ChoiceRequest $request)
+    public function upsertChoices($choices, $question_id)
     {
-        $choice = Choice::create([
-            'question_id' => $request->question_id,
-            'choice' => $request->choice,
-            'is_correct' => $request->is_correct,
-        ]);
-
-        $response = [
-            'choices' => $choice,
-        ];
-
-        return $this->successResponse($response, 200);
+        $plucked_ids = [];
+        foreach ($choices as $choice) {
+            $findChoice = Choice::where('id', $choice['id'])
+                                ->where('question_id', $question_id)
+                                ->exists();
+            if ($findChoice) {
+                // Choice exists in the database
+                $existingChoice = Choice::find($choice['id']);
+                array_push($plucked_ids, $existingChoice->id);
+                $existingChoice->choice = $choice['choice'];
+                $existingChoice->is_correct = $choice['is_correct'];
+                $existingChoice->save();
+            } else {
+                // Choice does not exist in the database
+                $newChoice = Choice::create([
+                    'question_id' => $question_id,
+                    'choice' => $choice['choice'],
+                    'is_correct' => $choice['is_correct'],
+                ]);
+            }
+        }
+        // Deletes the choices that are have been removed
+        // $deleteChoice = Choice::whereNotIn('id', $plucked_ids)
+        //                         ->where('question_id', $question_id)
+        //                         ->delete();
     }
 
       /**
@@ -90,44 +78,47 @@ class QuestionController extends Controller
                                     ->exists();
             if ($findQuestion) {
                 // Question currently exists in the quiz
-                $newQuestion = Question::find($question['id']);
-                $newQuestion->question_type_id = $question['question_type_id'];
-                $newQuestion->question = $question['question'];
-                $newQuestion->time_limit = $question['time_limit'];
-                if ($question['question_type_id'] == 2) {
-                    $newQuestion->text_answer = $question['text_answer'];
+                // Update question here because it exists in the quiz
+                $existingQuestion = Question::find($question['id']);
+                $existingQuestion->question_type_id = $question['question_type_id'];
+                $existingQuestion->question = $question['question'];
+                $existingQuestion->time_limit = $question['time_limit'];
+                if ($question['question_type_id'] == 1) {
+                    // Update or create choices
+                    $this->upsertChoices($question['choices'], $question['id']);
+                } else {
+                    // Update text answer
+                    $existingQuestion->text_answer = $question['text_answer'];
                 }
-                $newQuestion->save();
+                $existingQuestion->save();
             } else {
                 // Question does not exist in the quiz
+                // Create question here becase it does not exist in the quiz
+                if ($question['question_type_id'] == 1) {
+                    // Multiple Choice
+                    $newQuestion = Question::create([
+                        'question' => $question['question'],
+                        'question_type_id' => $question['question_type_id'],
+                        'time_limit' => $question['time_limit'],
+                        'quiz_id' => $quiz_id
+                    ]);
+                    $this->upsertChoices($question['choices'], $newQuestion->id);
+                } else {
+                    // Identification type
+                    $newQuestion = Question::create([
+                        'question' => $question['question'],
+                        'question_type_id' => $question['question_type_id'],
+                        'time_limit' => $question['time_limit'],
+                        'text_answer' => $question['text_answer'],
+                        'quiz_id' => $quiz_id
+                    ]);
+                }
+                
             }
         }
 
-        return $this->successResponse('$response', 200);
-    }
+        $questions = Question::where('quiz_id', $quiz_id)->get();
 
-      /**
-     * Edit choices.
-     *
-     * @param EditChoiceRequest $request
-     * @return \Illuminate\Http\Response
-     */
-
-    public function editChoices(EditChoiceRequest $request)
-    {
-
-        $editChoices = Choice::find($request->choice_id);
-
-        $editChoices->question_id = $request['question_id'];
-        $editChoices->choice = $request['choice'];
-        $editChoices->is_correct = $request['is_correct'];
-
-        $editChoices->save();
-
-        $response = [
-            'Choice' => $editChoices,
-        ];
-
-        return $this->successResponse($response, 200);
+        return $this->successResponse($questions, 200);
     }
 }
