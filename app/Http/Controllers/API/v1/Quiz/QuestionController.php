@@ -53,12 +53,13 @@ class QuestionController extends Controller
                     'choice' => $choice['choice'],
                     'is_correct' => $choice['is_correct'],
                 ]);
+                array_push($plucked_ids, $newChoice->id);
             }
         }
         // Deletes the choices that are have been removed
-        // $deleteChoice = Choice::whereNotIn('id', $plucked_ids)
-        //                         ->where('question_id', $question_id)
-        //                         ->delete();
+        $deleteChoice = Choice::whereNotIn('id', $plucked_ids)
+                                ->where('question_id', $question_id)
+                                ->delete();
     }
 
       /**
