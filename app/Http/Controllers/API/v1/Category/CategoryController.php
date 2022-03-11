@@ -141,7 +141,8 @@ class CategoryController extends Controller
     {
         $query = request()->query();
 
-        $categories = Category::withCount('subcategories');
+        $categories = Category::withCount('subcategories')
+                                ->where('name', 'LIKE', '%' . $query['search'] . '%');
 
         if(isset($query['sortDirection'])){
             return $this->sort($query, $categories);
