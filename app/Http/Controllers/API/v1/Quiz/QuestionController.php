@@ -62,6 +62,13 @@ class QuestionController extends Controller
                                 ->delete();
     }
 
+    public function deleteQuestions($new_question_ids, $quiz_id)
+    {
+        $deleteQuestions = Question::whereNotIn('id', $new_question_ids)
+                                    ->where('quiz_id', $quiz_id)
+                                    ->delete();
+    }
+
       /**
      * Edit questions.
      *
@@ -73,6 +80,8 @@ class QuestionController extends Controller
     {
         $questions = $request->questions;
         $quiz_id = (int)$request->quizId;
+        $plucked_new_question_ids = [];
+
         foreach ($questions as $question) {
             $findQuestion = Question::where('quiz_id', $quiz_id)
                                     ->where('id', $question['id'])
@@ -81,6 +90,9 @@ class QuestionController extends Controller
                 // Question currently exists in the quiz
                 // Update question here because it exists in the quiz
                 $existingQuestion = Question::find($question['id']);
+
+                array_push($plucked_new_question_ids, $existingQuestion->id);
+
                 $existingQuestion->question_type_id = $question['question_type_id'];
                 $existingQuestion->question = $question['question'];
                 $existingQuestion->time_limit = $question['time_limit'];
@@ -103,6 +115,9 @@ class QuestionController extends Controller
                         'time_limit' => $question['time_limit'],
                         'quiz_id' => $quiz_id
                     ]);
+
+                    array_push($plucked_new_question_ids, $newQuestion->id);
+
                     $this->upsertChoices($question['choices'], $newQuestion->id);
                 } else {
                     // Identification type
@@ -113,10 +128,14 @@ class QuestionController extends Controller
                         'text_answer' => $question['text_answer'],
                         'quiz_id' => $quiz_id
                     ]);
+
+                    array_push($plucked_new_question_ids, $newQuestion->id);
                 }
                 
             }
         }
+
+        $this->deleteQuestions($plucked_new_question_ids, $quiz_id);
 
         $questions = Question::where('quiz_id', $quiz_id)->get();
 
