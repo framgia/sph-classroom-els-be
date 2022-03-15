@@ -128,6 +128,8 @@ class QuestionController extends Controller
                         'text_answer' => $question['text_answer'],
                         'quiz_id' => $quiz_id
                     ]);
+
+                    array_push($plucked_new_question_ids, $newQuestion->id);
                 }
                 
             }
