@@ -85,8 +85,10 @@ class AdminController extends Controller
 
     public function deleteAdmin(Request $request)
     {
-        User::find($request->admin_id)->delete();
+        $admin = User::find($request->admin_id);
 
-        return $this->successResponse(['message' => 'Successfully deleted admin.'], 200);
+        $admin->delete();
+
+        return $this->successResponse(['message' => "Successfully deleted $admin->name."], 200);
     }
 }
