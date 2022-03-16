@@ -76,15 +76,6 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
-    public function changeCategory($quiz_id, $category_id)
-    {
-        $quiz = Quiz::where('id', $quiz_id)->first();
-
-        $quiz->category_id = $category_id;
-        $quiz->save();
-    }
-
     public function editQuestion(Request $request)
     {
         $questions = $request->questions;
