@@ -141,4 +141,12 @@ class QuestionController extends Controller
 
         return $this->successResponse($questions, 200);
     }
+
+    public function changeCategory($quiz_id, $category_id)
+    {
+        $quiz = Quiz::where('id', $quiz_id)->first();
+
+        $quiz->category_id = $category_id;
+        $quiz->save();
+    }
 }
