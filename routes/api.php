@@ -85,5 +85,7 @@ Route::prefix('v1')->group(function () {
         Route::patch('/admin/password-edit', [AdminController::class, 'updatePassword']);
         Route::get('/admin/users', [AdminController::class, 'getAdminAccounts']);
         Route::get('/admin/categories', [CategoryController::class, 'listOfCategories']);
+        Route::delete('/admin/delete-quiz/{quiz_id}', [QuizController::class, 'deleteQuiz']);
+        Route::delete('/admin/delete-admin/{admin_id}', [AdminController::class, 'deleteAdmin']);
     });
 });

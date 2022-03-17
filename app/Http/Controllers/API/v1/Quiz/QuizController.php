@@ -97,4 +97,13 @@ class QuizController extends Controller
 
         return $this->successResponse($response, 200);
     }
+
+    public function deleteQuiz(Request $request)
+    {
+        $quiz = Quiz::find($request->quiz_id);
+
+        $quiz->delete();
+
+        return $this->successResponse(['message' => "Successfully deleted $quiz->title."], 200);
+    }
 }

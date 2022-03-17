@@ -82,4 +82,13 @@ class AdminController extends Controller
 
         return $this->paginate($admins->get());
     }
+
+    public function deleteAdmin(Request $request)
+    {
+        $admin = User::find($request->admin_id);
+
+        $admin->delete();
+
+        return $this->successResponse(['message' => "Successfully deleted $admin->name."], 200);
+    }
 }
