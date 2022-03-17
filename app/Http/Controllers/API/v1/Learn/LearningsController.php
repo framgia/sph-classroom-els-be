@@ -12,7 +12,7 @@ use App\Traits\Pagination;
 class LearningsController extends Controller
 {
     use Pagination;
-    //
+
     public function show(Request $request)
     {
         $id = Auth::user()->id;
@@ -21,10 +21,10 @@ class LearningsController extends Controller
                                 ->join('categories', 'quizzes.category_id', '=', 'categories.id')
                                 ->where('quizzes_taken.user_id', $id)
                                 ->orderByDesc('quizzes_taken.created_at')
+                                ->with('questions')
                                 ->get()
                                 ->unique('quiz_id')
                                 ->values();
-
 
         return $this->paginate($quizzes_taken_by_user);
     }
