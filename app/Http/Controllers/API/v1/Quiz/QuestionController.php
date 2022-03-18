@@ -136,9 +136,18 @@ class QuestionController extends Controller
         }
 
         $this->deleteQuestions($plucked_new_question_ids, $quiz_id);
+        $this->changeCategory($quiz_id, $request->categoryId);
 
         $questions = Question::where('quiz_id', $quiz_id)->get();
 
         return $this->successResponse($questions, 200);
+    }
+
+    public function changeCategory($quiz_id, $category_id)
+    {
+        $quiz = Quiz::find($quiz_id);
+
+        $quiz->category_id = $category_id;
+        $quiz->save();
     }
 }
