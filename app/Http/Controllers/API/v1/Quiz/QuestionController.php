@@ -145,7 +145,7 @@ class QuestionController extends Controller
 
     public function changeCategory($quiz_id, $category_id)
     {
-        $quiz = Quiz::where('id', $quiz_id)->first();
+        $quiz = Quiz::find($quiz_id);
 
         $quiz->category_id = $category_id;
         $quiz->save();
