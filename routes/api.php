@@ -68,6 +68,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/friendscore/{quiz_id}', [UserfriendsScoreController::class, 'friendsScore']);
         Route::get('/quiz_attempts/{quiz_id}', [UserScoresAndAttemptsController::class, 'UserScoreAndAttempts']);
         Route::post('/profileEdit', [ChangeNameEmailController::class, 'changeName']);
+        Route::post('/profileEdituploadImage', [UploadImageController::class, 'uploadAvatar']);
+        Route::get('/categories/{category_id}/categoryQuizzes', [QuizController::class, 'categoryQuizzes']);
 
         //Admin Routes
         Route::post('/admin/create', [AdminController::class, 'store']);

@@ -42,6 +42,21 @@ class QuizController extends Controller
         return $this->showOne($quiz);
     }
 
+    /**
+     * Display related quizzes
+     * 
+     * @param  Category $category
+     * @return \Illuminate\Http\Response
+     */
+    public function categoryQuizzes(Request $request)
+    {
+        $categoryQuizzes = Category::join('quizzes', 'categories.id', '=', 'quizzes.category_id')
+        ->where('categories.id', $request->category_id)
+        ->get();
+
+        return $this->paginate($categoryQuizzes);
+    }
+
     public function relatedQuizzes(Request $request)
     {    
         $relatedQuizzes = Category::join('quizzes', 'categories.id', '=', 'quizzes.category_id')
