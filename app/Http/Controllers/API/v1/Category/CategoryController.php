@@ -92,12 +92,13 @@ class CategoryController extends Controller
      * @param  Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category  $category)
+    public function deleteCategory(Request $request)
     {
+        $category = Category::find($request->id);
+
         $category->delete();
 
-        return $this->showOne($category);
-    }
+        return $this->successResponse(['message' => "Successfully deleted $category->name."], 200);    }
 
     public function getCategories()
     {
