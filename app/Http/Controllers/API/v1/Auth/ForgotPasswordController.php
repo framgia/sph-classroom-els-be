@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\ResetRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +18,14 @@ class ForgotPasswordController extends Controller
 {
     public function forgotPassword(ForgotPasswordRequest $request)
     {
+        define('ADMIN_TYPE_ID', 1);
+
+        $user = User::where('email', $request->email)->first();
+
+        if($user && $user->user_type_id === ADMIN_TYPE_ID){
+            return $this->errorResponse(trans('auth.unauthorized'), 403);
+        }
+
         $status = Password::sendResetLink(
             $request->only('email')
         );
@@ -25,7 +34,7 @@ class ForgotPasswordController extends Controller
             return $this->authResponse('The link was sent, please Check your email');
         }
         else {
-            return $this->errorResponse("Incorrect Email", 401);
+            return $this->errorResponse(trans('auth.email'), 401);
         }
 
         throw ValidationException::withMessages([
