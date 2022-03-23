@@ -34,7 +34,7 @@ class ForgotPasswordController extends Controller
             return $this->authResponse('The link was sent, please Check your email');
         }
         else {
-            return $this->errorResponse("Incorrect Email", 401);
+            return $this->errorResponse(trans('auth.email'), 401);
         }
 
         throw ValidationException::withMessages([
