@@ -88,5 +88,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/admin/categories', [CategoryController::class, 'listOfCategories']);
         Route::delete('/admin/delete-quiz/{quiz_id}', [QuizController::class, 'deleteQuiz']);
         Route::delete('/admin/delete-admin/{admin_id}', [AdminController::class, 'deleteAdmin']);
+        Route::delete('/admin/delete-category/{id}', [CategoryController::class, 'deleteCategory']);
     });
 });
