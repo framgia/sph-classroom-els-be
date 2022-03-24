@@ -17,7 +17,7 @@ class UserRecentQuizzesController extends Controller
         $recent = Quiz::join('quizzes_taken', 'quizzes.id', '=',  'quizzes_taken.quiz_id', )
             ->where('quizzes_taken.user_id', '=', $id)
             ->orderByDesc('quizzes_taken.created_at')
-            ->limit(4)
+            ->limit(3)
             ->get();
 
         $recentQuizzesId = $recent->unique('quiz_id')->pluck('quiz_id')->all();
