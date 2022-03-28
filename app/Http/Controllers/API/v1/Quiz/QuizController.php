@@ -24,9 +24,11 @@ class QuizController extends Controller
      */
     public function index(Category $category)
     {
-        $quizzes = $category->quizzes;
-        
-        return $this->paginate($quizzes);
+        $categoryQuizzes = Quiz::where('category_id', $category->id)
+            ->has('questions')
+            ->get();
+
+        return $this->paginate($categoryQuizzes);
     }
 
     /**
@@ -40,21 +42,6 @@ class QuizController extends Controller
         $quiz = Quiz::find($request->quiz);
 
         return $this->showOne($quiz);
-    }
-
-    /**
-     * Display related quizzes
-     * 
-     * @param  Category $category
-     * @return \Illuminate\Http\Response
-     */
-    public function categoryQuizzes(Request $request)
-    {
-        $categoryQuizzes = Category::join('quizzes', 'categories.id', '=', 'quizzes.category_id')
-        ->where('categories.id', $request->category_id)
-        ->get();
-
-        return $this->paginate($categoryQuizzes);
     }
 
     public function relatedQuizzes(Request $request)
