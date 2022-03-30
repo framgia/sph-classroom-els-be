@@ -58,8 +58,13 @@ class QuizzesTakenController extends Controller
         $activityquiz = activity()
         ->causedBy($logged_in_user)
         ->performedOn($quiz)
-        ->withProperties(['name' => $name, 'email' => $email, 'user_type_id' => $user_type_id])
-        ->log(' :properties.name Answered :subject.title Quiz');
+        ->withProperties([
+            'name' => $name, 
+            'taken_quiz' => $quiztaken,
+            'quiz' => $quiz, 
+            'questions' => $quiz->questions,
+            'category_id' => $quiz->category_id
+        ])->log(':properties.name answered :subject.title');
 
         return $this->successResponse(['quizzes_taken_id' => $quizzes_taken_id], 200);
     }
@@ -134,5 +139,14 @@ class QuizzesTakenController extends Controller
 
 
         return $this->showAll($categories_with_quizzestaken_only); 
+    }
+
+    public function getTakenQuizScore(Request $request)
+    {
+        $score = DB::table('quizzes_taken')
+                          ->where('id', $request->quiz_taken_id)
+                          ->get('score');
+
+        return $this->successResponse($score, 200);
     }
 }

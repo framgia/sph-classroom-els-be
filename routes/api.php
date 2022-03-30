@@ -52,6 +52,7 @@ Route::prefix('v1')->group(function () {
         Route::resource('/quizzes.questions', QuestionController::class);
         Route::resource('/quizzes-taken', QuizzesTakenController::class);
         Route::resource('/quizzes-taken.answers', QuizAnswerController::class);
+        Route::get('/quizzes-taken/{quiz_taken_id}/score', [QuizzesTakenController::class, 'getTakenQuizScore']);
         Route::post('/change-password', [ChangePasswordController::class, 'changePassword']);
         Route::get('/learnings', [LearningsController::class, 'show']);
 

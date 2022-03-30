@@ -32,8 +32,8 @@ class FollowController extends Controller
         $logged_in_user = activity()
         ->causedBy($logged_in_user)
         ->performedOn($to_follow_user)
-        ->withProperties(['name' => $name, 'email' => $email, 'user_type_id' => $user_type_id])
-        ->log(' :properties.name followed :subject.name');
+        ->withProperties(['name' => $name, 'followed_id' => $to_follow_user->id, 'followed_name' => $to_follow_user->name])
+        ->log(':properties.name followed :subject.name');
 
         return $this->successResponse("Successfully followed student", 200);
     }
@@ -57,8 +57,8 @@ class FollowController extends Controller
         $logged_in_user = activity()
         ->causedBy($logged_in_user)
         ->performedOn($to_unfollow_user)
-        ->withProperties(['name' => $name, 'email' => $email, 'user_type_id' => $user_type_id])
-        ->log(' :properties.name unfollowed :subject.name');
+        ->withProperties(['name' => $name, 'unfollowed_id' => $to_unfollow_user->id, 'unfollowed_name' => $to_unfollow_user->name])
+        ->log(':properties.name unfollowed :subject.name');
 
 
         return $this->successResponse("Successfully unfollowed student", 200);
