@@ -140,4 +140,13 @@ class QuizzesTakenController extends Controller
 
         return $this->showAll($categories_with_quizzestaken_only); 
     }
+
+    public function getTakenQuizScore(Request $request)
+    {
+        $score = DB::table('quizzes_taken')
+                          ->where('id', $request->quiz_taken_id)
+                          ->get('score');
+
+        return $this->successResponse($score, 200);
+    }
 }
