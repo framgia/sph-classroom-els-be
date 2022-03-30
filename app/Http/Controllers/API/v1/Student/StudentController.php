@@ -5,11 +5,13 @@ namespace App\Http\Controllers\API\v1\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\Pagination;
 use App\Traits\StudentFilter;
 use App\Traits\StudentAvatar;
+use App\Http\Requests\Admin\UpdatePasswordRequest;
 use App\Models\User;
 
 
@@ -56,5 +58,19 @@ class StudentController extends Controller
         ];
 
         return $this->successResponse($response, 200);
+    }
+
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+        $student = Auth::user();
+
+        if(!Hash::check($request->password, $student->password)){
+            return $this->errorResponse(['password' =>  trans('auth.password')], 401); 
+        }
+
+        $student->password = bcrypt($request->new_password);
+        $student->save();
+
+        return $this->successResponse(['message' => 'Your password has been successfully updated.'], 200);
     }
 }
