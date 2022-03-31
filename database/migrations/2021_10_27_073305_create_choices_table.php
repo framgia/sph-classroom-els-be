@@ -17,7 +17,7 @@ class CreateChoicesTable extends Migration
             $table->id();
             $table->foreignId('question_id');
             $table->string('choice');
-            $table->enum('is_correct', ['true', 'false']);
+            $table->boolean('is_correct')->default(false);
             $table->timestamps();
         });
     }
